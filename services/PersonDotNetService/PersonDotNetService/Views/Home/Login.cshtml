@@ -1,0 +1,29 @@
+﻿@using System.Web.Optimization
+@model PersonDotNetService.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+@using (Html.BeginForm(new {ViewBag.ReturnUrl }))
+{
+    <fieldset>
+        <legend>Login</legend>
+        <ol style="list-style: none;">
+            <li>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+            </li>
+        </ol>
+        <input class="btn submit" type="submit" value="Log in" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
