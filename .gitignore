@@ -24,3 +24,59 @@ DerivedData
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 #
 # Pods/
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+build/
+out/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# Idea Files
+.idea/
+*.iml
+
+# Microsoft specific
+bin/
+obj/
+
+# mstest test results
+TestResults
+
+#Resharper files
+_ReSharper.*/
+*.Resharper.user
+
+#Publish files
+*.publish.xml
+*.pubxml
+
+#VS local-only files
+*.suo
+*.user
+*.vspscc
+*.vssscc
+*.dbmdl
+*.refactorlog
+*.vsmdi
+*.webtestresult
+FakesAssemblies
+*.fakes
+*.log
+packages/
