@@ -66,10 +66,10 @@ Thumbs.db
 # Intellij IDEA (see https://intellij-support.jetbrains.com/entries/23393067)
 
 tasks.xml
-./idea/datasources.xml
-./idea/dataSources.ids
+datasources.xml
+dataSources.ids
 **/.idea/libraries/
-./idea/workspace.xml
+workspace.xml
 
 #Security
 Key.properties
