@@ -1,0 +1,34 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Gradle : oauth-java : oauth-java-1.0.war">
+    <output-path>$PROJECT_DIR$/out/artifacts/oauth-java</output-path>
+    <root id="archive" name="oauth-java-1.0.war">
+      <element id="javaee-facet-resources" facet="oauth-java/web/Web Gradle : oauth-java-1.0.war" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="oauth-java" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: jersey-container-servlet-core-2.13" />
+          <element id="library" level="project" name="Gradle: javax.inject-2.3.0-b10" />
+          <element id="library" level="project" name="Gradle: jersey-common-2.13" />
+          <element id="library" level="project" name="Gradle: jersey-server-2.13" />
+          <element id="library" level="project" name="Gradle: javax.ws.rs-api-2.0.1" />
+          <element id="library" level="project" name="Gradle: javax.annotation-api-1.2" />
+          <element id="library" level="project" name="Gradle: jersey-guava-2.13" />
+          <element id="library" level="project" name="Gradle: hk2-api-2.3.0-b10" />
+          <element id="library" level="project" name="Gradle: hk2-locator-2.3.0-b10" />
+          <element id="library" level="project" name="Gradle: osgi-resource-locator-1.0.1" />
+          <element id="library" level="project" name="Gradle: jersey-client-2.13" />
+          <element id="library" level="project" name="Gradle: validation-api-1.1.0.Final" />
+          <element id="library" level="project" name="Gradle: hk2-utils-2.3.0-b10" />
+          <element id="library" level="project" name="Gradle: aopalliance-repackaged-2.3.0-b10" />
+          <element id="library" level="project" name="Gradle: javassist-3.18.1-GA" />
+          <element id="library" level="project" name="Gradle: javax.inject-1" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/oauth-java/exploded/oauth-java-1.0.war/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

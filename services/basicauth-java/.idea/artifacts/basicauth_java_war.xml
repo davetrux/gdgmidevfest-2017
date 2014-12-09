@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="basicauth-java:war">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/basicauth_java_war</output-path>
+    <root id="archive" name="basicauth-java_war.war">
+      <element id="artifact" artifact-name="basicauth-java:war exploded" />
+    </root>
+  </artifact>
+</component>
