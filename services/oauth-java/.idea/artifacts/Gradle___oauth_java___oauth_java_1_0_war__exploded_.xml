@@ -24,6 +24,13 @@
           <element id="library" level="project" name="Gradle: aopalliance-repackaged-2.3.0-b10" />
           <element id="library" level="project" name="Gradle: javassist-3.18.1-GA" />
           <element id="library" level="project" name="Gradle: javax.inject-1" />
+          <element id="library" level="project" name="Gradle: jersey-media-json-jackson-2.13" />
+          <element id="library" level="project" name="Gradle: jackson-jaxrs-base-2.3.2" />
+          <element id="library" level="project" name="Gradle: jackson-jaxrs-json-provider-2.3.2" />
+          <element id="library" level="project" name="Gradle: jackson-annotations-2.3.2" />
+          <element id="library" level="project" name="Gradle: jackson-core-2.3.2" />
+          <element id="library" level="project" name="Gradle: jackson-databind-2.3.2" />
+          <element id="library" level="project" name="Gradle: jackson-module-jaxb-annotations-2.3.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">
