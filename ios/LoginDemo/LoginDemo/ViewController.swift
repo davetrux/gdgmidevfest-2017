@@ -10,6 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var loginType: UISegmentedControl!
+    
+    @IBOutlet weak var userName: UITextField!
+    
+    @IBOutlet weak var password: UITextField!
+    
+    @IBOutlet weak var results: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -20,6 +29,22 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func attemptLogin(sender: AnyObject) {
+        
+        let user = userName.text
+        let pwd = password.text
+        
+        let service = BasicService()
+        
+        service.getPersons(user, password: pwd,{
+            (response) in
+                self.loadPersons(response)
+        })
+    }
+    
+    private func loadPersons(persons: NSDictionary){
+        let i = 9
+    }
+    
 }
 
