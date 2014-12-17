@@ -8,13 +8,120 @@
 
 import Foundation
 
-class BasicService {
+typealias JSONDictionary = Dictionary<String, AnyObject>
+typealias JSONArray = Array<AnyObject>
+
+class BasicService: NSObject, NSURLConnectionDataDelegate {
     
     var settings:Settings!
     
+    let responseData = NSMutableData()
+    var statusCode:Int = -1
+    
+    typealias APICallback = ((AnyObject?, NSError?) -> ())
+    var callback: APICallback! = nil
+    
+    override
     init(){
         self.settings = Settings()
     }
+    
+
+    func connection(connection: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
+        let httpResponse = response as NSHTTPURLResponse
+        statusCode = httpResponse.statusCode
+        switch (httpResponse.statusCode) {
+        case 201, 200, 401:
+            self.responseData.length = 0
+        default:
+            println("ignore")
+        }
+    }
+    
+    func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
+        self.responseData.appendData(data)
+    }
+
+    func connectionDidFinishLoading(connection: NSURLConnection!) {
+        var error: NSError?
+        var json : AnyObject! = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
+        
+        if error != nil {
+            callback(nil, error)
+            return
+        }
+        
+        switch(statusCode) {
+        case (200):
+            callback(self.handleData(json), nil)
+        case (400):
+            self.callback(nil, self.handleBadRequest(json))
+        case (500):
+            callback(nil, self.handleServerError(json))
+        case (401):
+            callback(nil, self.handleAuthError(json))
+        default:
+            // Unknown Error??
+            callback(nil, nil)
+        }
+    }
+    
+    func handleData(json: AnyObject) -> NSArray {
+        return NSArray()
+    }
+
+    
+    func handleServerError(json: AnyObject) -> NSError {
+        if let resultObj = json as? JSONDictionary {
+            
+            if let messageObj: AnyObject = resultObj["error"] {
+                if let message = messageObj as? String {
+                    return NSError(domain:"server", code:500, userInfo:["error": message])
+                }
+            }
+        }
+        return NSError(domain:"server", code:500, userInfo:["error": "Bad Request"])
+    }
+    
+    func handleBadRequest(json: AnyObject) -> NSError {
+        if let resultObj = json as? JSONDictionary {
+            
+            if let messageObj: AnyObject = resultObj["error"] {
+                if let message = messageObj as? String {
+                    return NSError(domain:"format", code:400, userInfo:["error": message])
+                }
+            }
+        }
+        return NSError(domain:"format", code:400, userInfo:["error": "Bad Request"])
+    }
+
+    
+
+    func handleAuthError(json: AnyObject) -> NSError {
+        if let resultObj = json as? JSONDictionary {
+
+            if let messageObj: AnyObject = resultObj["error"] {
+                if let message = messageObj as? String {
+                    return NSError(domain:"auth", code:401, userInfo:["error": message])
+                }
+            }
+        }
+        return NSError(domain:"auth", code:401, userInfo:["error": "Authentication error"])
+    }
+
+    private func hTTPGetRequest(callback: APICallback, url: String) {
+        self.callback = callback
+        
+        var nsURL = NSURL(string: url)
+        
+        let request = NSURLRequest(URL: nsURL!)
+        
+        let conn = NSURLConnection(request: request, delegate:self)
+        if (conn == nil) {
+            callback(nil, nil)
+        }
+    }
+    
     
     func getPersons(userName:String, password:String, callback:(NSDictionary)->()) {
         println("get persons")
@@ -34,24 +141,13 @@ class BasicService {
             (data,response,error) in
             var error:NSError?
             var response = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
+
             
-            let persons = self.convertJson(response)
-            
-            callback(persons)
+            callback(response)
         }
         task.resume()
     }
     
-    private func convertJson( json: NSDictionary) -> NSDictionary {
-        
-        let result = NSDictionary()
-        
-        for item in json {
-            
-        }
-        
-        return result
-    }
     
     private func createAuthHeader(userName: String, password:String) -> String {
         let authString = userName + ":" + password
