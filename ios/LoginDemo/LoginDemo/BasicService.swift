@@ -18,7 +18,7 @@ class BasicService: NSObject, NSURLConnectionDataDelegate {
     let responseData = NSMutableData()
     var statusCode:Int = -1
     
-    typealias APICallback = ((AnyObject?, NSError?) -> ())
+    typealias APICallback = ((NSArray?, NSError?) -> ())
     var callback: APICallback! = nil
     
     override
@@ -42,11 +42,12 @@ class BasicService: NSObject, NSURLConnectionDataDelegate {
         self.responseData.appendData(data)
     }
 
+    
     func connectionDidFinishLoading(connection: NSURLConnection!) {
         var error: NSError?
         var json : AnyObject! = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
         
-        if error != nil {
+        if error != nil && (statusCode == 200 || statusCode == 500) {
             callback(nil, error)
             return
         }
@@ -55,11 +56,11 @@ class BasicService: NSObject, NSURLConnectionDataDelegate {
         case (200):
             callback(self.handleData(json), nil)
         case (400):
-            self.callback(nil, self.handleBadRequest(json))
+            self.callback(nil, self.handleBadRequest())
         case (500):
             callback(nil, self.handleServerError(json))
         case (401):
-            callback(nil, self.handleAuthError(json))
+            callback(nil, self.handleAuthError())
         default:
             // Unknown Error??
             callback(nil, nil)
@@ -83,33 +84,19 @@ class BasicService: NSObject, NSURLConnectionDataDelegate {
         return NSError(domain:"server", code:500, userInfo:["error": "Bad Request"])
     }
     
-    func handleBadRequest(json: AnyObject) -> NSError {
-        if let resultObj = json as? JSONDictionary {
-            
-            if let messageObj: AnyObject = resultObj["error"] {
-                if let message = messageObj as? String {
-                    return NSError(domain:"format", code:400, userInfo:["error": message])
-                }
-            }
-        }
+    func handleBadRequest() -> NSError {
+        
         return NSError(domain:"format", code:400, userInfo:["error": "Bad Request"])
     }
 
     
 
-    func handleAuthError(json: AnyObject) -> NSError {
-        if let resultObj = json as? JSONDictionary {
-
-            if let messageObj: AnyObject = resultObj["error"] {
-                if let message = messageObj as? String {
-                    return NSError(domain:"auth", code:401, userInfo:["error": message])
-                }
-            }
-        }
+    func handleAuthError() -> NSError {
+        
         return NSError(domain:"auth", code:401, userInfo:["error": "Authentication error"])
     }
 
-    private func hTTPGetRequest(callback: APICallback, url: String) {
+    private func httpGetRequest(callback: APICallback, url: String) {
         self.callback = callback
         
         var nsURL = NSURL(string: url)
@@ -123,9 +110,10 @@ class BasicService: NSObject, NSURLConnectionDataDelegate {
     }
     
     
-    func getPersons(userName:String, password:String, callback:(NSDictionary)->()) {
+    func getPersons(userName:String, password:String, callback:APICallback) {
         println("get persons")
-        request(settings.basicUrl, userName: userName, password: password, callback)
+        //request(settings.basicUrl, userName: userName, password: password, callback)
+        self.httpGetRequest(callback, url: self.settings.basicUrl)
     }
     
     func request(url:String, userName:String, password:String, callback:(NSDictionary)->()) {

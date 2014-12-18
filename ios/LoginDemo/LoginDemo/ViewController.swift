@@ -36,13 +36,11 @@ class ViewController: UIViewController {
         
         let service = BasicService()
         
-        service.getPersons(user, password: pwd,{
-            (response) in
-                self.loadPersons(response)
-        })
+        service.getPersons(user, password: pwd, self.loadPersons)
+
     }
     
-    private func loadPersons(persons: NSDictionary){
+    private func loadPersons(persons: NSArray?, error: NSError?){
         let i = 9
     }
     
