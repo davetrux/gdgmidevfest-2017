@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         let user = userName.text
         let pwd = password.text
         
-        let service = BasicService()
+        let service = Service()
         
         service.getPersons(user, password: pwd, self.loadPersons)
 

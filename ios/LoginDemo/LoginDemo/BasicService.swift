@@ -8,10 +8,10 @@
 
 import Foundation
 
-typealias JSONDictionary = Dictionary<String, AnyObject>
-typealias JSONArray = Array<AnyObject>
+//typealias JSONDictionary = Dictionary<String, AnyObject>
+//typealias JSONArray = Array<AnyObject>
 
-class BasicService: NSObject, NSURLConnectionDataDelegate {
+class BasicService: NSObject, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
     
     var settings:Settings!
     
@@ -36,6 +36,11 @@ class BasicService: NSObject, NSURLConnectionDataDelegate {
         default:
             println("ignore")
         }
+    }
+    
+    func connection(connection: NSURLConnection,
+        didReceiveAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
+            let i = 9;
     }
     
     func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
@@ -114,26 +119,7 @@ class BasicService: NSObject, NSURLConnectionDataDelegate {
         println("get persons")
         //request(settings.basicUrl, userName: userName, password: password, callback)
         self.httpGetRequest(callback, url: self.settings.basicUrl)
-    }
     
-    func request(url:String, userName:String, password:String, callback:(NSDictionary)->()) {
-        var nsURL = NSURL(string: url)
-        let authHeader = createAuthHeader(userName, password: password)
-        
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        config.HTTPAdditionalHeaders = ["Authorization" : authHeader]
-        let session = NSURLSession(configuration: config)
-        
-        println(callback)
-        let task = session.dataTaskWithURL(nsURL!) {
-            (data,response,error) in
-            var error:NSError?
-            var response = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
-
-            
-            callback(response)
-        }
-        task.resume()
     }
     
     
