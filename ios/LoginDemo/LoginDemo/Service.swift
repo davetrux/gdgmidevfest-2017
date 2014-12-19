@@ -57,18 +57,87 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
     
     //
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        let i = 8
+        
+        if(error != nil) {
+            
+            callback(nil, error)
+        
+        } else {
+            
+            var err: NSError?
+
+            var json = NSJSONSerialization.JSONObjectWithData(self.responseData, options: .MutableContainers, error: &err) as NSArray
+
+            if err != nil && (statusCode == 200 || statusCode == 500) {
+                callback(nil, err)
+                return
+            }
+            
+            switch(statusCode) {
+            case (200):
+                callback(self.handleData(json), nil)
+            case (400):
+                self.callback(nil, self.handleBadRequest())
+            case (500):
+                callback(nil, self.handleServerError(json))
+            case (401):
+                callback(nil, self.handleAuthError())
+            default:
+                // Unknown Error??
+                callback(nil, nil)
+            }
+        }
+    }
+    
+    
+    private func handleData(json: NSArray) -> NSArray {
+        let result = NSMutableArray()
+        
+        for dict in json {
+            let item: NSDictionary = dict as NSDictionary
+
+            let person = Person(first: item.valueForKey("firstName") as String, last: item.valueForKey("lastName") as String, gender: item.valueForKey("gender") as String)
+            result.addObject(person)
+        }
+        
+        return result
+    }
+    
+    
+    private func handleServerError(json: AnyObject) -> NSError {
+        if let resultObj = json as? JSONDictionary {
+            
+            if let messageObj: AnyObject = resultObj["error"] {
+                if let message = messageObj as? String {
+                    return NSError(domain:"server", code:500, userInfo:["error": message])
+                }
+            }
+        }
+        return NSError(domain:"server", code:500, userInfo:["error": "Bad Request"])
+    }
+    
+    private func handleBadRequest() -> NSError {
+        
+        return NSError(domain:"format", code:400, userInfo:["error": "Bad Request"])
+    }
+    
+    
+    private func handleAuthError() -> NSError {
+        
+        return NSError(domain:"auth", code:401, userInfo:["error": "Authentication error"])
     }
     
     
     func getPersons(userName:String, password:String, callback:APICallback) {
         println("get persons")
-        self.httpRequest(settings.basicUrl, userName: userName, password: password, callback: callback)
-        //self.httpGetRequest(callback, url: self.settings.basicUrl)
+        
+        self.callback = callback
+        
+        self.httpRequest(settings.basicUrl, userName: userName, password: password)
         
     }
     
-    func httpRequest(url:String, userName:String, password:String, callback:APICallback) {
+    private func httpRequest(url:String, userName:String, password:String) {
         var nsURL = NSURL(string: url)
         let authHeader = createAuthHeader(userName, password: password)
         
