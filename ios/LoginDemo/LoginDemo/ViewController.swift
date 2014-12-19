@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var loginType: UISegmentedControl!
     
@@ -18,10 +18,16 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var results: UITableView!
     
+    var personList: Array<Person>?
+    
+    let cellIdentifier = "cellIdentifier"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Register the UITableViewCell class with the tableView
+        self.results?.registerClass(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,12 +42,45 @@ class ViewController: UIViewController {
         
         let service = Service()
         
+        self.personList?.removeAll(keepCapacity: true)
+        
         service.getPersons(user, password: pwd, self.loadPersons)
 
     }
     
-    private func loadPersons(persons: NSArray?, error: NSError?){
-        let i = 9
+    private func loadPersons(persons: Array<Person>?, error: NSError?){
+        self.personList = persons
+        
+        dispatch_async(dispatch_get_main_queue(), {self.results.reloadData}())
+    }
+    
+    // UITableViewDataSource methods
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return (personList?.count ?? 0)
+        
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as UITableViewCell
+        
+        if personList?.count > 0 {
+            cell.textLabel?.text =  "\(personList![indexPath.row].firstName) \(personList![indexPath.row].lastName)"
+        }
+        
+        return cell
+    }
+    
+    // UITableViewDelegate methods
+    
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        
+        
     }
     
 }

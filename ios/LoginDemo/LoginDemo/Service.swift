@@ -13,7 +13,7 @@ typealias JSONArray = Array<AnyObject>
 
 class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate {
     
-    typealias APICallback = ((NSArray?, NSError?) -> ())
+    typealias APICallback = ((Array<Person>?, NSError?) -> ())
     var callback: APICallback! = nil
     
     var settings:Settings!
@@ -90,14 +90,14 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
     }
     
     
-    private func handleData(json: NSArray) -> NSArray {
-        let result = NSMutableArray()
+    private func handleData(json: NSArray) -> Array<Person> {
+        var result = [Person]()
         
         for dict in json {
             let item: NSDictionary = dict as NSDictionary
 
             let person = Person(first: item.valueForKey("firstName") as String, last: item.valueForKey("lastName") as String, gender: item.valueForKey("gender") as String)
-            result.addObject(person)
+            result.append(person)
         }
         
         return result
