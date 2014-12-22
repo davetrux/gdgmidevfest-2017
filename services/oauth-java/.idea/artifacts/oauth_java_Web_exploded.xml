@@ -7,6 +7,28 @@
         <element id="directory" name="classes">
           <element id="module-output" name="oauth-java" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: jersey-server-1.17" />
+          <element id="library" level="project" name="Gradle: jersey-servlet-1.17" />
+          <element id="library" level="project" name="Gradle: gson-2.1" />
+          <element id="library" level="project" name="Gradle: asm-3.1" />
+          <element id="library" level="project" name="Gradle: jersey-core-1.17" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sun.jersey/jersey-server/1.17/f3ec0882700751d45d86b6b638804eb6d34bad6f/jersey-server-1.17.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sun.jersey/jersey-servlet/1.17/ab4ff82bbc5e86761bf92e9686d7ab09d2404c30/jersey-servlet-1.17.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.1/2e66da15851f9f5b5079228f856c2f090ba98c38/gson-2.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/asm/asm/3.1/c157def142714c544bdea2e6144645702adf7097/asm-3.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sun.jersey/jersey-core/1.17/ea723f958123e794f5c08fc0baa92578c72eef96/jersey-core-1.17.jar" />
+          <element id="library" level="project" name="Gradle: jersey-json-1.17" />
+          <element id="library" level="project" name="Gradle: jettison-1.1" />
+          <element id="library" level="project" name="Gradle: jaxb-impl-2.2.3-1" />
+          <element id="library" level="project" name="Gradle: jackson-core-asl-1.9.2" />
+          <element id="library" level="project" name="Gradle: jackson-mapper-asl-1.9.2" />
+          <element id="library" level="project" name="Gradle: jackson-jaxrs-1.9.2" />
+          <element id="library" level="project" name="Gradle: jackson-xc-1.9.2" />
+          <element id="library" level="project" name="Gradle: jaxb-api-2.2.2" />
+          <element id="library" level="project" name="Gradle: stax-api-1.0-2" />
+          <element id="library" level="project" name="Gradle: activation-1.1" />
+        </element>
       </element>
     </root>
   </artifact>
