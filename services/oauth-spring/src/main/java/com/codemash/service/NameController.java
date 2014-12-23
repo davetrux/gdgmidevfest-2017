@@ -30,13 +30,6 @@ public class NameController {
         return _generator.getRandomPersons(count);
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET, produces = {"text/plain"})
-    @ResponseBody
-    public String getHello() {
-        return "Bazinga!";
-    }
-
-
     @RequestMapping(value = "/name/{gender}", method = RequestMethod.GET, headers = "Accept=application/json", produces = {"application/json"})
     @ResponseBody
     public Person getSingleNameByGender(@PathVariable("gender") String gender, HttpServletResponse response) {
