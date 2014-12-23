@@ -10,6 +10,7 @@
     <properties>
         <spring.version>4.0.0.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
+        <spring.oauth.version>1.0.5.RELEASE</spring.oauth.version>
         <jackson.version>2.2.3</jackson.version>
     </properties>
 
@@ -56,6 +57,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${spring.oauth.version}</version>
         </dependency>
 
         <dependency>
