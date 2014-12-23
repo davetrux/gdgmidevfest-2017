@@ -88,7 +88,7 @@
     </bean>
 
     <!-- Token Store  -->
-    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>
+    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore"/>
 
     <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore"/>
@@ -98,11 +98,15 @@
         <property name="accessTokenValiditySeconds" value="60"/>
     </bean>
 
-    <bean id="userApprovalHandler"
-          class="org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler">
-        <property name="tokenServices" ref="tokenServices"/>
+    <bean id="oAuth2RequestFactory" class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
+        <constructor-arg ref="clientDetails"/>
     </bean>
 
+    <bean id="userApprovalHandler"
+          class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">
+        <property name="tokenStore" ref="tokenStore"/>
+        <property name="requestFactory" ref="oAuth2RequestFactory"/>
+    </bean>
     <!-- Token management -->
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
                                 user-approval-handler-ref="userApprovalHandler">
