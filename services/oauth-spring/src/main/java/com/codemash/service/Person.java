@@ -3,10 +3,11 @@ package com.codemash.service;
 /**
  * Created by david on 12/22/14.
  */
-import org.codehaus.jackson.annotate.JsonAutoDetect;
 
-@JsonAutoDetect
-public class Person {
+import java.io.Serializable;
+
+
+public class Person implements Serializable {
     private String FirstName;
     private String LastName;
     private String Gender;
