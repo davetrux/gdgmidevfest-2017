@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="oauth-spring:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="oauth-spring.war">
+      <element id="artifact" artifact-name="oauth-spring:war exploded" />
+    </root>
+  </artifact>
+</component>
