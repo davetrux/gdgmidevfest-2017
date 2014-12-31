@@ -11,6 +11,6 @@ import Foundation
 class Settings {
     
     let basicUrl = "http://mobidevdaydetroit.appspot.com/api/names/11"
-    let ntlmUrl = "http://54.235.104.123/mddw/api/names/11"
+    let ntlmUrl = "http://192.168.0.130/api/names/11"
     let oauthUrl = "http://mobidevdaydetroit.appspot.com/api/names/11"
 }

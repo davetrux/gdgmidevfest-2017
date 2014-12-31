@@ -14,12 +14,24 @@ typealias JSONArray = Array<AnyObject>
 class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate {
     
     typealias APICallback = ((Array<Person>?, NSError?) -> ())
+    
+    enum LoginType {
+        case Basic
+        case Ntlm
+        case oAuth
+    }
+    
+    var authType: LoginType!
+    
     var callback: APICallback! = nil
     
     var settings:Settings!
     
     let responseData = NSMutableData()
     var statusCode:Int = -1
+    
+    var userName: String!
+    var password: String!
     
     override
     init(){
@@ -29,7 +41,9 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
     //NSURLSessionDelegate
     func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
  
-            completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, nil);
+        var cred = NSURLCredential(user: self.userName, password: self.password, persistence:  NSURLCredentialPersistence.None)
+        
+            completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, cred);
     }
     
     //NSURLSessionDataDelegate
@@ -38,7 +52,6 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         self.responseData.appendData(data)
         
     }
-    
     
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse,
         completionHandler: (NSURLSessionResponseDisposition) -> Void) {
@@ -73,7 +86,8 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
                 return
             }
             
-            switch(statusCode) {
+            switch(statusCode)
+            {
             case (200):
                 callback(self.handleData(json), nil)
             case (400):
@@ -128,16 +142,47 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
     }
     
     
-    func getPersons(userName:String, password:String, callback:APICallback) {
+    func getPersons(userName:String, password:String, auth:LoginType, callback:APICallback) {
         println("get persons")
+        
+        self.authType = auth
         
         self.callback = callback
         
-        self.httpRequest(settings.basicUrl, userName: userName, password: password)
+        var url: String
+        
+        switch(auth)
+        {
+            case LoginType.Basic:
+                url = settings.basicUrl
+                self.httpBasicRequest(url, userName: userName, password: password)
+            case LoginType.Ntlm:
+                url = settings.ntlmUrl
+                self.httpNtlmRequest(url, userName: userName, password: password)
+            case LoginType.oAuth:
+                url = settings.oauthUrl
+        }
+        
+        
         
     }
     
-    private func httpRequest(url:String, userName:String, password:String) {
+    private func httpNtlmRequest(url:String, userName:String, password:String) {
+        var nsURL = NSURL(string: url)
+        
+        self.userName = userName
+        self.password = password
+        
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+
+        let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
+        let task = session.dataTaskWithURL(nsURL!)
+        
+        task.resume()
+        
+    }
+    
+    private func httpBasicRequest(url:String, userName:String, password:String) {
         var nsURL = NSURL(string: url)
         let authHeader = createAuthHeader(userName, password: password)
         

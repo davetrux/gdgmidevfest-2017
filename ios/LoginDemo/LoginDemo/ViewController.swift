@@ -36,6 +36,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     @IBAction func attemptLogin(sender: AnyObject) {
+        var auth: Service.LoginType!
+        
+        switch self.loginType.selectedSegmentIndex
+        {
+            case 0:
+                auth = Service.LoginType.Basic
+            case 1:
+                auth = Service.LoginType.Ntlm
+            case 2:
+                auth = Service.LoginType.oAuth
+            default:
+                auth = Service.LoginType.Basic
+        }
         
         let user = userName.text
         let pwd = password.text
@@ -44,7 +57,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.personList?.removeAll(keepCapacity: true)
         
-        service.getPersons(user, password: pwd, self.loadPersons)
+        service.getPersons(user, password: pwd, auth: auth, self.loadPersons)
 
     }
     
