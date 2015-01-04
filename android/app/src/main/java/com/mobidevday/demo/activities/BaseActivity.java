@@ -45,7 +45,7 @@ public class BaseActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             int serviceResult = intent.getIntExtra("result", -1);
-            if (serviceResult == RESULT_OK && !intent.getStringExtra("call").equalsIgnoreCase("oauth-data")) {
+            if (serviceResult == RESULT_OK) {
                 String json = intent.getStringExtra("data");
 
                 Gson parser = new Gson();
