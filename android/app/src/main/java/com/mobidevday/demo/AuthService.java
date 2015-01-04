@@ -5,8 +5,11 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.mobidevday.demo.network.OauthHelper;
+import com.mobidevday.demo.network.WebHelper;
 
 import java.io.IOException;
 
@@ -24,9 +27,8 @@ public class AuthService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        if ("google-auth".equals(intent.getAction())) {
-            String token = authenticateGoogle(intent.getStringExtra("account"));
-            getOauthData(intent.getStringExtra("url"), token);
+        if ("oauth-auth".equals(intent.getAction())) {
+            getOauthData(intent.getStringExtra("username"), intent.getStringExtra("password"));
         }
         else if ("forms-auth".equals(intent.getAction())) {
             getFormsData(intent.getStringExtra("url"), intent.getStringExtra("cookie"));
@@ -42,13 +44,14 @@ public class AuthService extends IntentService {
     /*
      * oAuth
      */
-    private void getOauthData(String url, String token) {
-        WebHelper http = new WebHelper();
+    private void getOauthData(String userName, String password) {
+        OauthHelper http = new OauthHelper();
         String webResult;
         int result = -1;
         try {
-            String urlPlusToken = String.format("%s?token=%s", url, token);
-            webResult = http.getHttp(urlPlusToken);
+
+            webResult = http.getPersonJson(userName, password);
+
             if(!webResult.equalsIgnoreCase("")) {
                 result = Activity.RESULT_OK;
             }

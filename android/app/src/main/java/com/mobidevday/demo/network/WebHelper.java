@@ -1,9 +1,11 @@
-package com.mobidevday.demo;
+package com.mobidevday.demo.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+
+import com.mobidevday.demo.Settings;
 import com.mobidevday.demo.ntlm.NTLMSchemeFactory;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;

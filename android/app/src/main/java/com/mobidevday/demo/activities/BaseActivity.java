@@ -19,6 +19,9 @@ import com.mobidevday.demo.PersonAdapter;
 import java.util.ArrayList;
 
 public class BaseActivity extends Activity {
+
+    public static final String APP_TAG = "com.mobidevday.demo";
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

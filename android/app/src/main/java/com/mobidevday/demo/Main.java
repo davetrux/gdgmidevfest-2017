@@ -10,6 +10,7 @@ import com.mobidevday.demo.activities.Basic;
 import com.mobidevday.demo.activities.Form;
 import com.mobidevday.demo.activities.Windows;
 import com.mobidevday.demo.activities.oAuth;
+import com.mobidevday.demo.network.WebHelper;
 
 public class Main extends Activity {
 
@@ -51,7 +52,7 @@ public class Main extends Activity {
             switch (id){
                 case R.id.device:
                     intent = new Intent(Main.this, oAuth.class);
-                    intent.putExtra("title", "Device Account");
+                    intent.putExtra("title", "oAuth");
                     startActivity(intent);
                     break;
                 case R.id.basic:

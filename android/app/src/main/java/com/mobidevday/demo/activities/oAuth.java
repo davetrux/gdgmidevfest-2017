@@ -1,18 +1,16 @@
 package com.mobidevday.demo.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.google.android.gms.auth.GoogleAuthUtil;
+
 import com.mobidevday.demo.AuthService;
 import com.mobidevday.demo.R;
-import com.mobidevday.demo.Settings;
 
 
 public class oAuth extends BaseActivity {
@@ -22,45 +20,37 @@ public class oAuth extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.oauth);
+        setContentView(R.layout.basic);
 
         String title = getIntent().getStringExtra("title");
 
         TextView titleText = (TextView) findViewById(R.id.title);
         titleText.setText(title);
 
-        mLogin = (Button) findViewById(R.id.login);
+        Button mLogin = (Button) findViewById(R.id.login);
         mLogin.setOnClickListener(loginListener);
 
         mPersonList = (ListView) findViewById(R.id.results);
     }
 
     private View.OnClickListener loginListener = new View.OnClickListener(){
-            public void onClick(View v){
+        public void onClick(View v){
+            //Hide the keyboard
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(INPUT_METHOD_SERVICE);
 
-                String[] accounts = getAccountNames();
-                //Send credentials via intent
-                Intent intent = new Intent(oAuth.this, AuthService.class);
-                intent.setAction("google-auth");
-                intent.putExtra("account", accounts[0]);
-                intent.putExtra("url", Settings.BASIC_URL);
-                startService(intent);
-            }
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+            EditText userNameField = (EditText) findViewById(R.id.user_name);
+            EditText passwordField = (EditText) findViewById(R.id.password);
+
+            //Send credentials via intent
+            Intent intent = new Intent(oAuth.this, AuthService.class);
+            intent.setAction("oauth-auth");
+            intent.putExtra("username", userNameField.getText().toString().trim());
+            intent.putExtra("password", passwordField.getText().toString().trim());
+            startService(intent);
+        }
     };
-
-    private String[] getAccountNames() {
-        try {
-            AccountManager mAccountManager = AccountManager.get(this);
-            Account[] accounts = mAccountManager.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-            String[] names = new String[accounts.length];
-            for (int i = 0; i < names.length; i++) {
-                names[i] = accounts[i].name;
-            }
-            return names;
-        }
-        catch(Exception ex) {
-            Log.d("account error", ex.getMessage());
-                return null;
-        }
-    }
 }
