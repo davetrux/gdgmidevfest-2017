@@ -1,14 +1,17 @@
 package com.mobidevday.demo.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.mobidevday.demo.AuthService;
 import com.mobidevday.demo.R;
+import com.mobidevday.demo.Settings;
 
 public class Windows extends BaseActivity {
 
@@ -50,7 +53,7 @@ public class Windows extends BaseActivity {
                 intent.putExtra("domain", domainField.getText().toString().trim());
                 intent.putExtra("username", userNameField.getText().toString().trim());
                 intent.putExtra("password", passwordField.getText().toString().trim());
-                intent.putExtra("url", "http://54.235.104.123/mddw/api/names/11");
+                intent.putExtra("url", Settings.WINDOWS_URL);
                 startService(intent);
             }
     };

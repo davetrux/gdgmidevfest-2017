@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.mobidevday.demo.AuthService;
 import com.mobidevday.demo.R;
+import com.mobidevday.demo.Settings;
 
 public class Basic extends BaseActivity {
 
@@ -43,7 +44,7 @@ public class Basic extends BaseActivity {
                 intent.setAction("basic-auth");
                 intent.putExtra("username", userNameField.getText().toString().trim());
                 intent.putExtra("password", passwordField.getText().toString().trim());
-                intent.putExtra("url", "http://mobidevdaydetroit.appspot.com/api/names/11");
+                intent.putExtra("url", Settings.BASIC_URL);
                 startService(intent);
             }
     };

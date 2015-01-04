@@ -42,7 +42,7 @@ public class WebHelper {
         String deviceIP = getLocalIpAddress();
 
         mClient.getAuthSchemes().register("ntlm", new NTLMSchemeFactory());
-        mClient.getCredentialsProvider().setCredentials(new AuthScope("54.235.104.123", -1),
+        mClient.getCredentialsProvider().setCredentials(new AuthScope(Settings.WINDOWS_BASE, -1),
                 new NTCredentials(userName, password, deviceIP, domain));
 
         //Set up the HTTP calls

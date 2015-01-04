@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.mobidevday.demo.AuthService;
 import com.mobidevday.demo.R;
+import com.mobidevday.demo.Settings;
 
 public class Form extends BaseActivity {
 
@@ -45,7 +46,7 @@ public class Form extends BaseActivity {
 
         CookieManager.getInstance().removeSessionCookie();
 
-        mWeb.loadUrl("http://54.235.104.123/mddf/");
+        mWeb.loadUrl("http://192.168.0.130/mddf/");
     }
 
     private View.OnClickListener doneListener = new View.OnClickListener(){
@@ -58,7 +59,7 @@ public class Form extends BaseActivity {
                 Intent intent = new Intent(Form.this, AuthService.class);
                 intent.setAction("forms-auth");
                 intent.putExtra("cookie", cookie);
-                intent.putExtra("url", "http://54.235.104.123/mddf/api/names/11");
+                intent.putExtra("url", Settings.FORM_URL);
                 startService(intent);
 
                 RelativeLayout parent = (RelativeLayout) findViewById(R.id.parentContainer);

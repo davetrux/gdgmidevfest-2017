@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.mobidevday.demo.AuthService;
 import com.mobidevday.demo.R;
+import com.mobidevday.demo.Settings;
 
 
 public class oAuth extends BaseActivity {
@@ -42,7 +43,7 @@ public class oAuth extends BaseActivity {
                 Intent intent = new Intent(oAuth.this, AuthService.class);
                 intent.setAction("google-auth");
                 intent.putExtra("account", accounts[0]);
-                intent.putExtra("url", "http://mobidevdaydetroit.appspot.com/api/names/11");
+                intent.putExtra("url", Settings.BASIC_URL);
                 startService(intent);
             }
     };
