@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.mobidevday.demo.network.BasicHelper;
 import com.mobidevday.demo.network.OauthHelper;
 import com.mobidevday.demo.network.WebHelper;
 
@@ -107,11 +108,12 @@ public class AuthService extends IntentService {
      * Basic Auth
      */
     private void getBasicData(String url, String user, String password) {
-        WebHelper http = new WebHelper();
+        BasicHelper http = new BasicHelper();
         String webResult;
         int result = -1;
+
         try {
-            webResult = http.getHttp(url, user, password);
+            webResult = http.getPersonJson(user, password);
             if(!webResult.equalsIgnoreCase("")) {
                 result = Activity.RESULT_OK;
             }

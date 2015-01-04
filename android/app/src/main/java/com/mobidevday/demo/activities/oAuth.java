@@ -15,8 +15,6 @@ import com.mobidevday.demo.R;
 
 public class oAuth extends BaseActivity {
 
-    private Button mLogin;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

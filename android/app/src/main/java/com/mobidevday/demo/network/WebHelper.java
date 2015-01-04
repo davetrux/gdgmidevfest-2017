@@ -3,10 +3,10 @@ package com.mobidevday.demo.network;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Base64;
 
 import com.mobidevday.demo.Settings;
 import com.mobidevday.demo.ntlm.NTLMSchemeFactory;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -80,7 +80,7 @@ public class WebHelper {
     }
 
     /*
-     * No authentication
+     * No authentication used for device account call
      */
     public String getHttp(String url) throws IOException {
 
@@ -95,36 +95,6 @@ public class WebHelper {
      	String json = new String( byteArray );
      	stream.close();
         return json;
-    }
-
-    /*
-     * HTTP Basic Authentication
-     */
-    public String getHttp(String url, String user, String password) throws IOException {
-        //Set up the HTTP calls
-        HttpGet request = new HttpGet(url);
-
-        String basicHeader = createBasicHeader(user, password);
-
-        request.addHeader("Authorization", basicHeader);
-
-        HttpResponse response = mClient.execute(request);
-
-        //Get the data from the body of the response
-        InputStream stream = response.getEntity().getContent();
-     	byte byteArray[] = IOUtils.toByteArray(stream);
-     	String json = new String( byteArray );
-     	stream.close();
-        return json;
-    }
-
-
-    private String createBasicHeader(String userName, String password) {
-        String combined = String.format("%s:%s", userName, password);
-
-        String b64 =  Base64.encodeToString(combined.getBytes(), Base64.NO_WRAP);
-
-        return String.format("Basic %s", b64);
     }
 
     public String getLocalIpAddress()

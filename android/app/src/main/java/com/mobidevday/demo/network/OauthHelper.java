@@ -24,7 +24,6 @@ import java.net.URL;
 public class OauthHelper {
 
     private static final String GET = "GET";
-    private static final String POST = "POST";
     private static final String AUTH_HEADER = "Authorization";
 
     private OauthLoginResult mLoginResult;
@@ -55,7 +54,8 @@ public class OauthHelper {
 
         //Get token if necessary
         if(System.nanoTime() > mLastReturn + Settings.OAUTH_TOKEN_TIMEOUT) {
-            //Call for a new token
+            //Call for a new token using the refresh token
+
         }
 
         //Token OK, Fetch data
