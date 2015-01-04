@@ -10,7 +10,7 @@ import Foundation
 
 class Settings {
     
-    let basicUrl = "http://mobidevdaydetroit.appspot.com/api/names/11"
-    let ntlmUrl = "http://192.168.0.130/api/names/11"
-    let oauthUrl = "http://mobidevdaydetroit.appspot.com/api/names/11"
+    let basicUrl = "http://codemash-basic.appspot.com/api/names/11"
+    let ntlmUrl = "http://192.168.0.130/mddw/api/names/11"
+    let oauthUrl = "http://codemash-oauth/api/names/11"
 }
