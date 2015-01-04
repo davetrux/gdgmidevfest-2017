@@ -10,7 +10,8 @@
     <security:authentication-manager>
         <security:authentication-provider>
             <security:user-service id="userService">
-                <security:user name="test" password="pass" authorities="customer" />
+                <security:user name="codemash" password="password" authorities="customer" />
+                <security:user name="mdd" password="password123" authorities="customer" />
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>

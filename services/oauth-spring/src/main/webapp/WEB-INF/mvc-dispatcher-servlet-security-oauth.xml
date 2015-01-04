@@ -77,7 +77,8 @@
     <authentication-manager alias="authenticationManager" xmlns="http://www.springframework.org/schema/security">
         <authentication-provider>
             <user-service id="userDetailsService">
-                <user name="test" password="pass" authorities="ROLE_USER"/>
+                <user name="codemash" password="password" authorities="ROLE_USER" />
+                <user name="mdd" password="password123" authorities="ROLE_USER" />
             </user-service>
         </authentication-provider>
     </authentication-manager>
