@@ -40,13 +40,14 @@ public class BaseActivity extends Activity {
     /*
      * The listener that responds to intents sent back from the service
      */
-    private BroadcastReceiver onAuthenticate = new BroadcastReceiver() {
+    protected BroadcastReceiver onAuthenticate = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             int serviceResult = intent.getIntExtra("result", -1);
-            if (serviceResult == RESULT_OK) {
+            if (serviceResult == RESULT_OK && !intent.getStringExtra("call").equalsIgnoreCase("oauth-data")) {
                 String json = intent.getStringExtra("data");
+
                 Gson parser = new Gson();
                 mData = parser.fromJson(json, new TypeToken<ArrayList<Person>>(){}.getType());
 
@@ -63,7 +64,7 @@ public class BaseActivity extends Activity {
     /*
      * Helper method to put the list of persons into the ListView
      */
-    private void BindPersonList(Context context) {
+    protected void BindPersonList(Context context) {
         PersonAdapter adapter = new PersonAdapter(context, mData);
         mPersonList.setAdapter(adapter);
     }

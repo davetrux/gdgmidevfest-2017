@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.mobidevday.demo.Settings;
 import com.mobidevday.demo.activities.BaseActivity;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by david on 1/3/15.
@@ -26,51 +26,68 @@ public class OauthHelper {
     private static final String GET = "GET";
     private static final String AUTH_HEADER = "Authorization";
 
-    private OauthLoginResult mLoginResult;
-    private long mLastReturn;
-
     public static boolean isOnline(Context ctx) {
         ConnectivityManager manager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
         return info != null && info.isConnected();
     }
 
-    public String getPersonJson(String userName, String password) throws IOException {
+    public OauthData getPersonJson(String userName, String password, OauthData info) throws IOException {
 
         //Login
+        long current = TimeUnit.SECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS);
+        OauthData loginResult;
+        WebResult result;
+        long lastReturn;
 
-        String url= String.format(Settings.OAUTH_LOGIN, userName, password);
+        if(info == null || current > info.getLastResult() + Settings.OAUTH_REFRESH_TIMEOUT) {
+            String url = String.format(Settings.OAUTH_LOGIN, userName, password);
 
-        WebResult result = executeHTTP(url, GET, null, null);
+            result = executeHTTP(url, GET, null);
+            lastReturn = TimeUnit.SECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS);
 
-        mLastReturn = System.nanoTime();
+            if (result.getHttpCode() != 200) {
+                throw new IOException("Server Error");
+            }
 
-        if(result.getHttpCode() != 200) {
-            throw new IOException("Server Error");
+            Gson parser = new Gson();
+            loginResult = parser.fromJson(result.getHttpBody(), OauthData.class);
+        } else {
+            loginResult = info;
+            lastReturn = info.getLastResult();
         }
 
-        Gson parser = new Gson();
-        mLoginResult = parser.fromJson(result.getHttpBody(), OauthLoginResult.class);
-
-        //Get token if necessary
-        if(System.nanoTime() > mLastReturn + Settings.OAUTH_TOKEN_TIMEOUT) {
+        //Get new token if necessary
+        if(current > lastReturn + Settings.OAUTH_TOKEN_TIMEOUT) {
             //Call for a new token using the refresh token
+            String url = String.format(Settings.OAUTH_REFRESH, loginResult.getRefreshToken());
+            result = executeHTTP(url, GET, null);
+            lastReturn = TimeUnit.SECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS);
 
+            if (result.getHttpCode() != 200) {
+                throw new IOException("Server Error");
+            }
+
+            Gson parser = new Gson();
+            loginResult = parser.fromJson(result.getHttpBody(), OauthData.class);
         }
 
         //Token OK, Fetch data
-        String authHeader = String.format("%s %s", mLoginResult.getTokenType(), mLoginResult.getAccessToken());
+        String authHeader = String.format("%s %s", loginResult.getTokenType(), loginResult.getAccessToken());
 
-        result = executeHTTP(Settings.OAUTH_URL, GET, null, authHeader);
+        result = executeHTTP(Settings.OAUTH_URL, GET, authHeader);
 
         if(result.getHttpCode() != 200) {
+            Log.d(BaseActivity.APP_TAG, result.getHttpBody());
             throw new IOException("Server Error");
         }
+        loginResult.setLastResult(lastReturn);
+        loginResult.setCallResult(result.getHttpBody());
 
-        return result.getHttpBody();
+        return loginResult;
     }
 
-    private WebResult executeHTTP(String url, String method, String input, String authHeader) throws IOException {
+    private WebResult executeHTTP(String url, String method, String authHeader) throws IOException {
 
         OutputStream os = null;
         BufferedReader in = null;
@@ -83,18 +100,6 @@ public class OauthHelper {
 
             if(authHeader != null &&!authHeader.isEmpty()) {
                 conn.setRequestProperty(AUTH_HEADER, authHeader);
-            }
-
-            if (input !=null && !input.isEmpty()) {
-                //Create HTTP Headers for the content length and type
-                conn.setFixedLengthStreamingMode(input.getBytes().length);
-                conn.setRequestProperty("Content-Type", "application/json");
-                //Place the input data into the connection
-                conn.setDoOutput(true);
-                os = new BufferedOutputStream(conn.getOutputStream());
-                os.write(input.getBytes());
-                //clean up
-                os.flush();
             }
 
             final InputStream inputFromServer = conn.getInputStream();

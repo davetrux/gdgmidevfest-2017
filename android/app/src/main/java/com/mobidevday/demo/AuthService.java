@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.mobidevday.demo.network.BasicHelper;
+import com.mobidevday.demo.network.OauthData;
 import com.mobidevday.demo.network.OauthHelper;
 import com.mobidevday.demo.network.WebHelper;
 
@@ -29,7 +30,12 @@ public class AuthService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         if ("oauth-auth".equals(intent.getAction())) {
-            getOauthData(intent.getStringExtra("username"), intent.getStringExtra("password"));
+            OauthData data = null;
+            if(intent.hasExtra("oauth-data")){
+                data = intent.getParcelableExtra("oauth-data");
+            }
+
+            getOauthData(intent.getStringExtra("username"), intent.getStringExtra("password"), data);
         }
         else if ("forms-auth".equals(intent.getAction())) {
             getFormsData(intent.getStringExtra("url"), intent.getStringExtra("cookie"));
@@ -45,19 +51,19 @@ public class AuthService extends IntentService {
     /*
      * oAuth
      */
-    private void getOauthData(String userName, String password) {
+    private void getOauthData(String userName, String password, OauthData data) {
         OauthHelper http = new OauthHelper();
-        String webResult;
+        OauthData webResult;
         int result = -1;
         try {
 
-            webResult = http.getPersonJson(userName, password);
+            webResult = http.getPersonJson(userName, password, data);
 
-            if(!webResult.equalsIgnoreCase("")) {
+            if(!webResult.getCallResult().equalsIgnoreCase("")) {
                 result = Activity.RESULT_OK;
             }
         } catch (IOException e) {
-            webResult = "";
+            webResult = new OauthData();
             Log.d(getClass().getName(), "Exception calling service", e);
         }
 
@@ -158,4 +164,17 @@ public class AuthService extends IntentService {
         //Keep the intent local to the application
         LocalBroadcastManager.getInstance(this).sendBroadcast(sendBack);
     }
+
+    private void sendResult(OauthData data, String name, String action, int result) {
+
+        Intent sendBack = new Intent(name);
+
+        sendBack.putExtra("call", action);
+        sendBack.putExtra("result", result);
+        sendBack.putExtra("data", data);
+
+        //Keep the intent local to the application
+        LocalBroadcastManager.getInstance(this).sendBroadcast(sendBack);
+    }
+
 }

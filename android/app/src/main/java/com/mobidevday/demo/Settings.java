@@ -12,8 +12,8 @@ public class Settings {
 
     public static final String BASIC_URL = "http://codemash-basic.appspot.com/api/names/11";
 
-    public static final int OAUTH_REFRESH_TIMEOUT = 300;
-    public static final int OAUTH_TOKEN_TIMEOUT = 60;
+    public static final int OAUTH_REFRESH_TIMEOUT = 600;
+    public static final int OAUTH_TOKEN_TIMEOUT = 30;
 
     public static final String OAUTH_BASE = "http://codemash-oauth.appspot.com";
     public static final String OAUTH_LOGIN = OAUTH_BASE + "/oauth/token?grant_type=password&client_id=codemash-client&username=%s&password=%s";
