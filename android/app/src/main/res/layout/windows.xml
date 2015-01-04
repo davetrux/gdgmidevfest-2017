@@ -7,22 +7,18 @@
              android:id="@+id/login_layout">
     <TableRow>
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/title"
-                android:layout_span="2"/>
+            style="@style/TypeTitle"
+            android:id="@+id/title"/>
     </TableRow>
     <TableRow
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            style="@style/TypeFieldLabel"
                 android:text="@string/domain"
                 android:id="@+id/domain_label"/>
         <EditText
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
+            style="@style/TypeField"
                 android:id="@+id/domain"
                 android:inputType="text"/>
     </TableRow>
@@ -30,13 +26,11 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            style="@style/TypeFieldLabel"
                 android:text="@string/user_name"
                 android:id="@+id/user_name_label"/>
         <EditText
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
+            style="@style/TypeField"
                 android:id="@+id/user_name"
                 android:inputType="text"/>
     </TableRow>
@@ -44,13 +38,11 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            style="@style/TypeFieldLabel"
                 android:text="@string/password"
                 android:id="@+id/password_label"/>
         <EditText
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
+            style="@style/TypeField"
                 android:id="@+id/password"
                 android:inputType="textVisiblePassword"/>
     </TableRow>
@@ -58,11 +50,9 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            style="@style/TypeButton"
                 android:text="@string/login"
-                android:id="@+id/login"
-                android:layout_span="2"/>
+                android:id="@+id/login"/>
     </TableRow>
     <TableRow
             android:layout_width="fill_parent"

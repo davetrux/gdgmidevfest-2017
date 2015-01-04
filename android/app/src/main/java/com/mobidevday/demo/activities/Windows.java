@@ -20,7 +20,7 @@ public class Windows extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.login);
+        setContentView(R.layout.windows);
 
         String title = getIntent().getStringExtra("title");
 

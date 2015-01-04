@@ -28,4 +28,34 @@
         <item name="android:layout_margin">15dp</item>
         <item name="android:layout_width">90dp</item>
     </style>
+
+    <style name="TypeTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:layout_span">2</item>
+    </style>
+
+    <style name="TypeButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">50dp</item>
+        <item name="android:layout_marginRight">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_span">2</item>
+    </style>
+
+    <style name="TypeFieldLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <style name="TypeField">
+        <item name="android:layout_width">175dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
 </resources>
