@@ -1,0 +1,46 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Gradle : basicauth-java : basicauth-java-1.0.war">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/basicauth-java</output-path>
+    <root id="archive" name="basicauth-java-1.0.war">
+      <element id="javaee-facet-resources" facet="basicauth-java/web/Web Gradle : basicauth-java-1.0.war" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="basicauth-java" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: jersey-server-1.17" />
+          <element id="library" level="project" name="Gradle: jersey-servlet-1.17" />
+          <element id="library" level="project" name="Gradle: appengine-api-1.0-sdk-1.7.5" />
+          <element id="library" level="project" name="Gradle: gson-2.1" />
+          <element id="library" level="project" name="Gradle: asm-3.1" />
+          <element id="library" level="project" name="Gradle: jersey-core-1.17" />
+          <element id="library" level="project" name="Gradle: google-api-client-appengine-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-api-client-gson-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-oauth-client-appengine-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-api-client-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-api-client-servlet-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-http-client-appengine-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-http-client-gson-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-oauth-client-1.19.0" />
+          <element id="library" level="project" name="Gradle: google-oauth-client-servlet-1.19.0" />
+          <element id="library" level="project" name="Gradle: servlet-api-2.5" />
+          <element id="library" level="project" name="Gradle: google-http-client-jackson2-1.19.0" />
+          <element id="library" level="project" name="Gradle: guava-jdk5-13.0" />
+          <element id="library" level="project" name="Gradle: jdo2-api-2.3-eb" />
+          <element id="library" level="project" name="Gradle: google-http-client-1.19.0" />
+          <element id="library" level="project" name="Gradle: jsr305-1.3.9" />
+          <element id="library" level="project" name="Gradle: google-http-client-jdo-1.19.0" />
+          <element id="library" level="project" name="Gradle: jackson-core-2.1.3" />
+          <element id="library" level="project" name="Gradle: transaction-api-1.1" />
+          <element id="library" level="project" name="Gradle: httpclient-4.0.1" />
+          <element id="library" level="project" name="Gradle: httpcore-4.0.1" />
+          <element id="library" level="project" name="Gradle: commons-logging-1.1.1" />
+          <element id="library" level="project" name="Gradle: commons-codec-1.3" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/build/classes/artifacts/basicauth-java/exploded/basicauth-java-1.0.war/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
