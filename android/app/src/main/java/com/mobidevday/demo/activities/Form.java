@@ -46,7 +46,7 @@ public class Form extends BaseActivity {
 
         CookieManager.getInstance().removeSessionCookie();
 
-        mWeb.loadUrl("http://192.168.0.130/mddf/");
+        mWeb.loadUrl(Settings.FORM_LOGIN);
     }
 
     private View.OnClickListener doneListener = new View.OnClickListener(){
