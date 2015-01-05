@@ -19,6 +19,7 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         case Basic
         case Ntlm
         case oAuth
+        case Digest
     }
     
     var authType: LoginType!
@@ -38,10 +39,17 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         self.settings = Settings()
     }
     
-    //NSURLSessionDelegate
+    //NSURLSessionTaskDelegate for Digest
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge,completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void){
+        var cred = NSURLCredential(user: self.userName, password: self.password, persistence:  NSURLCredentialPersistence.ForSession)
+        
+        completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, cred);
+    }
+    
+    //NSURLSessionDelegate for NTLM
     func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
  
-        var cred = NSURLCredential(user: self.userName, password: self.password, persistence:  NSURLCredentialPersistence.None)
+        var cred = NSURLCredential(user: self.userName, password: self.password, persistence:  NSURLCredentialPersistence.ForSession)
         
             completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, cred);
     }
@@ -77,23 +85,28 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         
         } else {
             
-            var err: NSError?
-
-            var json = NSJSONSerialization.JSONObjectWithData(self.responseData, options: .MutableContainers, error: &err) as NSArray
-
-            if err != nil && (statusCode == 200 || statusCode == 500) {
-                callback(nil, err)
-                return
-            }
+            //varNSString *strData = [[NSString alloc]initWithData:returnData encoding:NSUTF8StringEncoding];
+            var strData = NSString(data: self.responseData, encoding: NSUTF8StringEncoding)
+            NSLog("%@",strData!);
+            
+           
             
             switch(statusCode)
             {
             case (200):
+                var err: NSError?
+                
+                var json = NSJSONSerialization.JSONObjectWithData(self.responseData, options: .MutableContainers, error: &err) as NSArray
+                
+                if err != nil && (statusCode == 200 || statusCode == 500) {
+                    callback(nil, err)
+                    return
+                }
                 callback(self.handleData(json), nil)
             case (400):
                 self.callback(nil, self.handleBadRequest())
-            case (500):
-                callback(nil, self.handleServerError(json))
+            //case (500):
+                //callback(nil, self.handleServerError(json))
             case (401):
                 callback(nil, self.handleAuthError())
             default:
@@ -161,6 +174,10 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
                 self.httpNtlmRequest(url, userName: userName, password: password)
             case LoginType.oAuth:
                 url = settings.oauthUrl
+            
+            case LoginType.Digest:
+                url = settings.digestUrl
+                self.httpNtlmRequest(url, userName: userName, password: password)
         }
         
         

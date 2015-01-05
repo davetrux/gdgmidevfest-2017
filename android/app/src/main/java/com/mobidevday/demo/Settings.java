@@ -5,12 +5,14 @@ package com.mobidevday.demo;
  */
 public class Settings {
 
-    public static final String WINDOWS_BASE = "192.168.0.130";
+    public static final String WINDOWS_BASE = "15.126.249.229";
 
     public static final String FORM_URL = "http://" + WINDOWS_BASE + "/mddf/api/names/11";
+    public static final String FORM_LOGIN = "http://" + WINDOWS_BASE + "/mddf/";
     public static final String WINDOWS_URL = "http://" + WINDOWS_BASE + "/mddw/api/names/11";
 
-    public static final String BASIC_URL = "http://codemash-basic.appspot.com/api/names/11";
+    public static final String BASIC_URL = "http://codemash-digest.appspot.com/api/names/11";
+    public static final String DIGEST_URL = "http://codemash-digest.appspot.com/api/names/11";
 
     public static final int OAUTH_REFRESH_TIMEOUT = 600;
     public static final int OAUTH_TOKEN_TIMEOUT = 30;

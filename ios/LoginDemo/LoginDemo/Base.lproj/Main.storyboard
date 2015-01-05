@@ -23,6 +23,7 @@
                                     <segment title="Basic"/>
                                     <segment title="NTLM"/>
                                     <segment title="OAuth"/>
+                                    <segment title="Digest"/>
                                 </segments>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="User Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibN-k9-NQH">

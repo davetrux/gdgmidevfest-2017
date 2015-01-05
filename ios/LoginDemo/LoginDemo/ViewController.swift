@@ -46,6 +46,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 auth = Service.LoginType.Ntlm
             case 2:
                 auth = Service.LoginType.oAuth
+            case 3:
+                auth = Service.LoginType.Digest
             default:
                 auth = Service.LoginType.Basic
         }

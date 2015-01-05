@@ -11,6 +11,7 @@ import Foundation
 class Settings {
     
     let basicUrl = "http://codemash-basic.appspot.com/api/names/11"
-    let ntlmUrl = "http://192.168.0.130/mddw/api/names/11"
+    let digestUrl = "http://codemash-digest.appspot.com/api/names/11"
     let oauthUrl = "http://codemash-oauth/api/names/11"
+    let ntlmUrl = "http://15.126.249.229/mddw/api/names/11"
 }
