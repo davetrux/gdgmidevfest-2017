@@ -2,6 +2,9 @@ package com.mobidevday.demo.network;
 
 import android.util.Base64;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,7 +28,7 @@ public class HmacAuth {
      * java.security.SignatureException when signature generation fails
      */
     public static String calculateRFC2104HMAC(String data, String key)
-            throws java.security.SignatureException
+            throws SignatureException
     {
         String result;
         try {
@@ -47,5 +50,16 @@ public class HmacAuth {
             throw new SignatureException("Failed to generate HMAC : " + e.getMessage());
         }
         return result;
+    }
+
+    public static String createMd5Hash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+
+        byte[] bytesOfInput = input.getBytes("UTF-8");
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+
+        byte[] digest = md.digest(bytesOfInput);
+
+        return Base64.encodeToString(digest, Base64.NO_WRAP);
     }
 }

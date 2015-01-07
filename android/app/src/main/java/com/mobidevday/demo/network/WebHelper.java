@@ -25,7 +25,7 @@ public class WebHelper {
         return executeHTTP(Settings.FORM_URL, "Cookie", cookie);
     }
 
-    public WebResult getPersonJsonHmac(final String signature) throws IOException {
+    public WebResult getPersonJsonHmac(final String signature, String md5) throws IOException {
 
         return executeHTTP(Settings.HMAC_URL, "Authorization", signature);
     }

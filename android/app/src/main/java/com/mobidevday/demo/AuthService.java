@@ -17,6 +17,7 @@ import com.mobidevday.demo.network.WebHelper;
 import com.mobidevday.demo.network.WebResult;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 
 public class AuthService extends IntentService {
@@ -69,14 +70,21 @@ public class AuthService extends IntentService {
         int result = -1;
         try {
 
-            String signature = HmacAuth.calculateRFC2104HMAC(Settings.HMAC_URL, HMAC_PRIVATE);
+            String md5 = HmacAuth.createMd5Hash(Settings.HMAC_URL);
 
-            String authorization = "MDD " + userName + ":" + signature;
+            String hmacString = "GET" + md5 + Settings.HMAC_URL;
 
-            webResult = http.getPersonJsonHmac(authorization);
+            String signature = HmacAuth.calculateRFC2104HMAC(hmacString, HMAC_PRIVATE);
+
+            String authorization = "HMAC " + userName + ":" + signature;
+
+            webResult = http.getPersonJsonHmac(authorization, md5);
             if (webResult.getHttpCode() == 200) {
                 result = Activity.RESULT_OK;
             }
+        } catch (NoSuchAlgorithmException ax) {
+            webResult = new WebResult();
+            Log.d(getClass().getName(), "Exception generating hash", ax);
         } catch (SignatureException sx) {
             webResult = new WebResult();
             Log.d(getClass().getName(), "Exception generating signature", sx);
