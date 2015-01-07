@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/basicauth-java.iml" filepath="$PROJECT_DIR$/basicauth-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hmac-java.iml" filepath="$PROJECT_DIR$/hmac-java.iml" />
     </modules>
   </component>
 </project>
