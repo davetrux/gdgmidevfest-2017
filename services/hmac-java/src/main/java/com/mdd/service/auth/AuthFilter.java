@@ -6,6 +6,8 @@ import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.util.logging.Logger;
 
@@ -26,14 +28,14 @@ public class AuthFilter implements ContainerRequestFilter {
 
         log.warning(String.format("Header: %s", authHeader));
 
-        if(authHeader == null || !authHeader.startsWith("MDD")){
+        if(authHeader == null || !authHeader.startsWith("HMAC")){
             log.severe("No authentication info found");
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
 
         boolean authenticated = false;
 
-        String[] creds = authHeader.replaceFirst("MDD ", "").split(":", 2);
+        String[] creds = authHeader.replaceFirst("HMAC ", "").split(":", 2);
 
         //If login or password fail
         if(creds == null || creds.length != 2){
@@ -49,12 +51,22 @@ public class AuthFilter implements ContainerRequestFilter {
         String url = containerRequest.getRequestUri().toString();
 
         try {
-            String calcSignature = HmacAuth.calculateRFC2104HMAC(url, HMAC_PRIVATE);
+            String md5 = HmacAuth.createMd5Hash(url);
+
+            String hmacString = containerRequest.getMethod() + md5 + url;
+
+            String calcSignature = HmacAuth.calculateRFC2104HMAC(hmacString, HMAC_PRIVATE);
 
             authenticated = creds[1].equals(calcSignature);
 
         } catch (SignatureException e) {
             log.severe("Invalid signature calculation");
+            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+        } catch (NoSuchAlgorithmException e) {
+            log.severe("Md5 algorithm missing");
+            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+        } catch (UnsupportedEncodingException e) {
+            log.severe("UTF-8 encoding missing");
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
 
