@@ -11,12 +11,15 @@ import com.mobidevday.demo.Settings;
 
 public class Basic extends BaseActivity {
 
+    private String mAction;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.basic);
 
         String title = getIntent().getStringExtra("title");
+        mAction = getIntent().getStringExtra("action");
 
         TextView titleText = (TextView) findViewById(R.id.title);
         titleText.setText(title);
@@ -41,10 +44,9 @@ public class Basic extends BaseActivity {
 
                 //Send credentials via intent
                 Intent intent = new Intent(Basic.this, AuthService.class);
-                intent.setAction("basic-auth");
+                intent.setAction(mAction);
                 intent.putExtra("username", userNameField.getText().toString().trim());
                 intent.putExtra("password", passwordField.getText().toString().trim());
-                intent.putExtra("url", Settings.BASIC_URL);
                 startService(intent);
             }
     };

@@ -24,9 +24,14 @@
                 android:text="@string/device_account"/>
     </TableRow>
     <TableRow>
-        <ListView
-                style="@style/Results"
-                android:id="@+id/personList"
-                android:layout_span="2"/>
+        <Button
+            android:id="@+id/digest"
+            style="@style/AuthButton"
+            android:text="@string/digest"/>
+        <Button
+            android:id="@+id/hmac"
+            style="@style/AuthButton"
+            android:text="@string/hmac"/>
     </TableRow>
+
 </TableLayout>

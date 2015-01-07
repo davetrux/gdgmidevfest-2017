@@ -10,7 +10,7 @@ import com.mobidevday.demo.activities.Basic;
 import com.mobidevday.demo.activities.Form;
 import com.mobidevday.demo.activities.Windows;
 import com.mobidevday.demo.activities.oAuth;
-import com.mobidevday.demo.network.WebHelper;
+import com.mobidevday.demo.network.NtlmHelper;
 
 public class Main extends Activity {
 
@@ -36,12 +36,17 @@ public class Main extends Activity {
         mDeviceButton = (Button) findViewById(R.id.device);
         mDeviceButton.setOnClickListener(accountListener);
 
+        Button digestButton = (Button) findViewById(R.id.digest);
+        digestButton.setOnClickListener(accountListener);
+
+        Button hmacButton = (Button) findViewById(R.id.hmac);
+        hmacButton.setOnClickListener(accountListener);
     }
 
     private View.OnClickListener accountListener = new View.OnClickListener(){
         public void onClick(View v){
 
-            if(!WebHelper.isOnline(getApplicationContext())) {
+            if(!NtlmHelper.isOnline(getApplicationContext())) {
                 Toast.makeText(getApplicationContext(), "Not currently online", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -58,6 +63,7 @@ public class Main extends Activity {
                 case R.id.basic:
                     intent = new Intent(Main.this, Basic.class);
                     intent.putExtra("title", "HTTP Basic");
+                    intent.putExtra("action", "basic-auth");
                     startActivity(intent);
                     break;
                 case R.id.forms:
@@ -68,6 +74,18 @@ public class Main extends Activity {
                 case R.id.windows:
                     intent = new Intent(Main.this, Windows.class);
                     intent.putExtra("title", "Windows");
+                    startActivity(intent);
+                    break;
+                case R.id.digest:
+                    intent = new Intent(Main.this, Basic.class);
+                    intent.putExtra("title", "Digest");
+                    intent.putExtra("action", "digest-auth");
+                    startActivity(intent);
+                    break;
+                case R.id.hmac:
+                    intent = new Intent(Main.this, Basic.class);
+                    intent.putExtra("title", "HMAC");
+                    intent.putExtra("action", "hmac-auth");
                     startActivity(intent);
                     break;
             }

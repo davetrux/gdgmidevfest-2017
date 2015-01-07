@@ -9,15 +9,20 @@ import android.util.Log;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.mobidevday.demo.network.BasicHelper;
+import com.mobidevday.demo.network.HmacAuth;
+import com.mobidevday.demo.network.NtlmHelper;
 import com.mobidevday.demo.network.OauthData;
 import com.mobidevday.demo.network.OauthHelper;
 import com.mobidevday.demo.network.WebHelper;
+import com.mobidevday.demo.network.WebResult;
 
 import java.io.IOException;
+import java.security.SignatureException;
 
 public class AuthService extends IntentService {
 
     public static final String AUTH_RESULT = "AUTH-RESULT";
+    private static final String HMAC_PRIVATE = "4c4a3f0d-3dff-475a-afcc-6ec86fc0b126";
 
     public AuthService() {
         super("AuthService");
@@ -38,14 +43,49 @@ public class AuthService extends IntentService {
             getOauthData(intent.getStringExtra("username"), intent.getStringExtra("password"), data);
         }
         else if ("forms-auth".equals(intent.getAction())) {
-            getFormsData(intent.getStringExtra("url"), intent.getStringExtra("cookie"));
+            getFormsData(intent.getStringExtra("cookie"));
         }
         else if ("windows-auth".equals(intent.getAction())) {
             getWindowsData(intent.getStringExtra("url"), intent.getStringExtra("username"), intent.getStringExtra("password"), intent.getStringExtra("domain"));
         }
         else if ("basic-auth".equals(intent.getAction())){
-            getBasicData(intent.getStringExtra("url"), intent.getStringExtra("username"), intent.getStringExtra("password"));
+            getBasicData(intent.getStringExtra("username"), intent.getStringExtra("password"));
         }
+        else if ("digest-auth".equals(intent.getAction())){
+            getDigestData(intent.getStringExtra("username"), intent.getStringExtra("password"));
+        }
+        else if ("hmac-auth".equals(intent.getAction())){
+            getHmacData(intent.getStringExtra("username"));
+        }
+    }
+
+    private void getDigestData(String userName, String password){
+
+    }
+
+    private void getHmacData(String userName) {
+        WebHelper http = new WebHelper();
+        WebResult webResult;
+        int result = -1;
+        try {
+
+            String signature = HmacAuth.calculateRFC2104HMAC(Settings.HMAC_URL, HMAC_PRIVATE);
+
+            String authorization = "MDD " + userName + ":" + signature;
+
+            webResult = http.getPersonJsonHmac(authorization);
+            if (webResult.getHttpCode() == 200) {
+                result = Activity.RESULT_OK;
+            }
+        } catch (SignatureException sx) {
+            webResult = new WebResult();
+            Log.d(getClass().getName(), "Exception generating signature", sx);
+        } catch (IOException e) {
+            webResult = new WebResult();
+            Log.d(getClass().getName(), "Exception calling service", e);
+        }
+
+        sendResult(webResult.getHttpBody(), AUTH_RESULT, "hmac-data", result);
     }
 
     /*
@@ -54,7 +94,7 @@ public class AuthService extends IntentService {
     private void getOauthData(String userName, String password, OauthData data) {
         OauthHelper http = new OauthHelper();
         OauthData webResult;
-        int result = -1;
+        int result = 1;
         try {
 
             webResult = http.getPersonJson(userName, password, data);
@@ -74,7 +114,7 @@ public class AuthService extends IntentService {
      * Windows Auth
      */
     private void getWindowsData(String url, String userName, String password, String domain){
-        WebHelper http = new WebHelper();
+        NtlmHelper http = new NtlmHelper();
         String webResult;
         int result = -1;
         try {
@@ -93,27 +133,27 @@ public class AuthService extends IntentService {
     /*
      * Forms Auth
      */
-    private void getFormsData(String url, String cookie){
+    private void getFormsData(String cookie){
         WebHelper http = new WebHelper();
-        String webResult;
+        WebResult webResult;
         int result = -1;
         try {
-            webResult = http.getHttp(url, cookie);
-            if(!webResult.equalsIgnoreCase("")) {
+            webResult = http.getPersonJsonForm(cookie);
+            if(webResult.getHttpCode() == 200) {
                 result = Activity.RESULT_OK;
             }
         } catch (IOException e) {
-            webResult = "";
+            webResult = new WebResult();
             Log.d(getClass().getName(), "Exception calling service", e);
         }
 
-        sendResult(webResult, AUTH_RESULT, "forms-data", result);
+        sendResult(webResult.getHttpBody(), AUTH_RESULT, "forms-data", result);
     }
 
     /*
      * Basic Auth
      */
-    private void getBasicData(String url, String user, String password) {
+    private void getBasicData(String user, String password) {
         BasicHelper http = new BasicHelper();
         String webResult;
         int result = -1;
