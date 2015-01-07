@@ -17,19 +17,6 @@ public class DevFestResource {
         return "Bazinga";
     }
 
-    @GET
-    @Path("long")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getLong() {
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return "Bazinga";
-    }
 
     @GET
     @Path("name/{gender}")
@@ -38,9 +25,7 @@ public class DevFestResource {
 
         if(gender != null && !gender.isEmpty() && genderValid(gender))
         {
-            Person result = _generator.getRandomName(gender);
-
-            return result;
+            return _generator.getRandomName(gender);
         } else {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
@@ -58,28 +43,16 @@ public class DevFestResource {
     @Path("name")
     @Produces(MediaType.APPLICATION_JSON)
     public Person getSingleName() {
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        Person result = _generator.getRandomName();
 
-        return result;
+        return  _generator.getRandomName();
     }
 
     @GET
     @Path("xname")
     @Produces(MediaType.APPLICATION_XML)
     public Person getSingleNameXml() {
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        Person result = _generator.getRandomName();
 
-        return result;
+        return _generator.getRandomName();
     }
 
     @GET
@@ -91,14 +64,7 @@ public class DevFestResource {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
 
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
         return _generator.getRandomPersons(count);
-
     }
 
     private boolean countValid(int count) {
