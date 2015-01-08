@@ -24,6 +24,7 @@ public class BasicHelper {
 
     public String getPersonJson(final String userName, final String password) throws IOException {
 
+        //This is the key action for HTTP Basic
         Authenticator.setDefault(new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(userName, password.toCharArray());
