@@ -24,8 +24,6 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 public class NtlmHelper {
-    AbstractHttpClient mClient = new DefaultHttpClient();
-
 
     /*
      * Perform an online check
@@ -37,20 +35,22 @@ public class NtlmHelper {
     }
 
     /*
-     * Windows Authentication
+     * NTLM Authentication
      */
     public String getHttp(String url, String userName, String password, String domain) throws IOException {
 
         String deviceIP = getLocalIpAddress();
 
-        mClient.getAuthSchemes().register("ntlm", new NTLMSchemeFactory());
-        mClient.getCredentialsProvider().setCredentials(new AuthScope(Settings.WINDOWS_BASE, -1),
+        AbstractHttpClient client = new DefaultHttpClient();
+
+        client.getAuthSchemes().register("ntlm", new NTLMSchemeFactory());
+        client.getCredentialsProvider().setCredentials(new AuthScope(Settings.WINDOWS_BASE, -1),
                 new NTCredentials(userName, password, deviceIP, domain));
 
         //Set up the HTTP calls
         HttpGet request = new HttpGet(url);
 
-        HttpResponse response = mClient.execute(request);
+        HttpResponse response = client.execute(request);
 
         //Get the data from the body of the response
         InputStream stream = response.getEntity().getContent();
