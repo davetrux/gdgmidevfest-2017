@@ -16,7 +16,9 @@
       </configuration>
     </facet>
     <facet type="google-app-engine" name="Google App Engine">
-      <configuration />
+      <configuration>
+        <sdk-home-path>$USER_HOME$/dev/appengine-java-sdk-1.9.17</sdk-home-path>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
