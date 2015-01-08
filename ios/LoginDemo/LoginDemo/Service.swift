@@ -39,7 +39,7 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         self.settings = Settings()
     }
     
-    //NSURLSessionTaskDelegate for Digest
+    //NSURLSessionTaskDelegate for Basic, Digest
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge,completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void){
         var cred = NSURLCredential(user: self.userName, password: self.password, persistence:  NSURLCredentialPersistence.ForSession)
         
@@ -168,7 +168,7 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         {
             case LoginType.Basic:
                 url = settings.basicUrl
-                self.httpBasicRequest(url, userName: userName, password: password)
+                self.httpNtlmRequest(url, userName: userName, password: password)
             case LoginType.Ntlm:
                 url = settings.ntlmUrl
                 self.httpNtlmRequest(url, userName: userName, password: password)
