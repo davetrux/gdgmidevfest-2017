@@ -39,7 +39,34 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         self.settings = Settings()
     }
     
-    //NSURLSessionTaskDelegate for Basic, Digest
+    func getPersons(userName:String, password:String, auth:LoginType, callback:APICallback) {
+        println("get persons")
+        
+        self.authType = auth
+        
+        self.callback = callback
+        
+        var url: String
+        
+        switch(auth)
+        {
+        case LoginType.Basic:
+            url = settings.basicUrl
+            self.httpNtlmRequest(url, userName: userName, password: password)
+        case LoginType.Ntlm:
+            url = settings.ntlmUrl
+            self.httpNtlmRequest(url, userName: userName, password: password)
+        case LoginType.oAuth:
+            url = settings.oauthUrl
+            //Not implemented yet
+        case LoginType.Digest:
+            url = settings.digestUrl
+            self.httpNtlmRequest(url, userName: userName, password: password)
+        }
+    }
+
+    
+    //NSURLSessionTaskDelegate for HTTP Basic, Digest
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge,completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void){
         var cred = NSURLCredential(user: self.userName, password: self.password, persistence:  NSURLCredentialPersistence.ForSession)
         
@@ -85,11 +112,8 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         
         } else {
             
-            //varNSString *strData = [[NSString alloc]initWithData:returnData encoding:NSUTF8StringEncoding];
             var strData = NSString(data: self.responseData, encoding: NSUTF8StringEncoding)
             NSLog("%@",strData!);
-            
-           
             
             switch(statusCode)
             {
@@ -153,36 +177,7 @@ class Service : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLS
         
         return NSError(domain:"auth", code:401, userInfo:["error": "Authentication error"])
     }
-    
-    
-    func getPersons(userName:String, password:String, auth:LoginType, callback:APICallback) {
-        println("get persons")
-        
-        self.authType = auth
-        
-        self.callback = callback
-        
-        var url: String
-        
-        switch(auth)
-        {
-            case LoginType.Basic:
-                url = settings.basicUrl
-                self.httpNtlmRequest(url, userName: userName, password: password)
-            case LoginType.Ntlm:
-                url = settings.ntlmUrl
-                self.httpNtlmRequest(url, userName: userName, password: password)
-            case LoginType.oAuth:
-                url = settings.oauthUrl
-            
-            case LoginType.Digest:
-                url = settings.digestUrl
-                self.httpNtlmRequest(url, userName: userName, password: password)
-        }
-        
-        
-        
-    }
+
     
     private func httpNtlmRequest(url:String, userName:String, password:String) {
         var nsURL = NSURL(string: url)
