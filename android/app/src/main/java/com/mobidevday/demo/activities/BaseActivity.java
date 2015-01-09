@@ -54,7 +54,7 @@ public class BaseActivity extends Activity {
                 BindPersonList(context);
 
             } else {
-                Toast.makeText(context, "Rest call failed.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Rest call failed.", Toast.LENGTH_SHORT).show();
             }
 
             Log.d("BroadcastReceiver", "onReceive called");

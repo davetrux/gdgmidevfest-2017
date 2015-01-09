@@ -13,8 +13,8 @@ public class Settings {
 
     public static final String BASIC_URL = "http://codemash-basic.appspot.com/api/names/11";
     public static final String DIGEST_URL = "http://codemash-digest.appspot.com/api/names/11";
-//    public static final String HMAC_URL = "http://codemash-hmac.appspot.com" + REST_URL;
-    public static final String HMAC_URL = "http://10.32.41.1:8080" + REST_URL;
+    public static final String HMAC_URL = "http://codemash-hmac.appspot.com" + REST_URL;
+    //public static final String HMAC_URL = "http://10.32.41.1:8080" + REST_URL;
 
     public static final int OAUTH_REFRESH_TIMEOUT = 600;
     public static final int OAUTH_TOKEN_TIMEOUT = 30;

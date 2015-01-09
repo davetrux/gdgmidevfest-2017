@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
 import com.mobidevday.demo.network.BasicHelper;
 import com.mobidevday.demo.network.HmacAuth;
 import com.mobidevday.demo.network.NtlmHelper;
@@ -67,7 +65,7 @@ public class AuthService extends IntentService {
     private void getHmacData(String userName) {
         WebHelper http = new WebHelper();
         WebResult webResult;
-        int result = -1;
+        int result = 2;
         try {
 
             String md5 = HmacAuth.createMd5Hash(Settings.HMAC_URL);
@@ -102,7 +100,7 @@ public class AuthService extends IntentService {
     private void getOauthData(String userName, String password, OauthData data) {
         OauthHelper http = new OauthHelper();
         OauthData webResult;
-        int result = 1;
+        int result = 2;
         try {
 
             webResult = http.getPersonJson(userName, password, data);
@@ -124,7 +122,7 @@ public class AuthService extends IntentService {
     private void getWindowsData(String url, String userName, String password, String domain){
         NtlmHelper http = new NtlmHelper();
         String webResult;
-        int result = -1;
+        int result = 2;
         try {
             webResult = http.getHttp(url, userName, password, domain);
             if(!webResult.equalsIgnoreCase("")) {
@@ -144,7 +142,7 @@ public class AuthService extends IntentService {
     private void getFormsData(String cookie){
         WebHelper http = new WebHelper();
         WebResult webResult;
-        int result = -1;
+        int result = 2;
         try {
             webResult = http.getPersonJsonForm(cookie);
             if(webResult.getHttpCode() == 200) {
@@ -164,7 +162,7 @@ public class AuthService extends IntentService {
     private void getBasicData(String user, String password) {
         BasicHelper http = new BasicHelper();
         String webResult;
-        int result = -1;
+        int result = 2;
 
         try {
             webResult = http.getPersonJson(user, password);
@@ -177,25 +175,6 @@ public class AuthService extends IntentService {
         }
 
         sendResult(webResult, AUTH_RESULT, "oauth-data", result);
-    }
-
-    /*
-     * Get Device Token
-     */
-    private String authenticateGoogle(String accountName) {
-        String token = "";
-        try {
-            Key props = new Key();
-            token = GoogleAuthUtil.getToken(this, accountName, props.getGoogleKey(), null);
-
-        } catch (IOException e) {
-            Log.d("IO error", e.getMessage());
-        } catch (GoogleAuthException ge) {
-            Log.d("Google auth error", ge.getMessage());
-        } catch (Exception ex) {
-            Log.d("error", ex.getMessage());
-        }
-        return token;
     }
 
     /*

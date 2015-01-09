@@ -44,7 +44,7 @@
         <EditText
             style="@style/TypeField"
                 android:id="@+id/password"
-                android:inputType="textVisiblePassword"/>
+                android:inputType="textPassword"/>
     </TableRow>
     <TableRow
             android:layout_width="fill_parent"
