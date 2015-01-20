@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.mobidevday.demo.network.BasicHelper;
+import com.mobidevday.demo.network.DigestHelper;
 import com.mobidevday.demo.network.HmacAuth;
 import com.mobidevday.demo.network.NtlmHelper;
 import com.mobidevday.demo.network.OauthData;
@@ -59,7 +60,21 @@ public class AuthService extends IntentService {
     }
 
     private void getDigestData(String userName, String password){
+        DigestHelper http = new DigestHelper();
+        String webResult;
+        int result = 2;
 
+        try {
+            webResult = http.getPersonJson(userName, password);
+            if(!webResult.equalsIgnoreCase("")) {
+                result = Activity.RESULT_OK;
+            }
+        } catch (IOException e) {
+            webResult = "";
+            Log.d(getClass().getName(), "Exception calling service", e);
+        }
+
+        sendResult(webResult, AUTH_RESULT, "digest-data", result);
     }
 
     private void getHmacData(String userName) {
