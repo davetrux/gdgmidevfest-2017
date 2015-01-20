@@ -174,7 +174,7 @@ public class AuthService extends IntentService {
             Log.d(getClass().getName(), "Exception calling service", e);
         }
 
-        sendResult(webResult, AUTH_RESULT, "oauth-data", result);
+        sendResult(webResult, AUTH_RESULT, "basic-data", result);
     }
 
     /*

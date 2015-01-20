@@ -21,12 +21,20 @@ import java.net.URL;
 public class BasicHelper {
 
     private static final String GET = "GET";
+    private static int mRetries = 0;
 
     public String getPersonJson(final String userName, final String password) throws IOException {
 
         //This is the key action for HTTP Basic
         Authenticator.setDefault(new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
+
+                if(mRetries > 0) {
+                    throw new SecurityException("Unauthorized");
+                }
+
+                mRetries ++;
+
                 return new PasswordAuthentication(userName, password.toCharArray());
             }
         });
@@ -41,7 +49,7 @@ public class BasicHelper {
         OutputStream os = null;
         BufferedReader in = null;
         final WebResult result = new WebResult();
-
+        result.setHttpBody("");
         try {
             final URL networkUrl = new URL(url);
             final HttpURLConnection conn = (HttpURLConnection) networkUrl.openConnection();
@@ -62,6 +70,10 @@ public class BasicHelper {
 
             return result;
 
+        } catch (SecurityException sx) {
+            Log.d(BaseActivity.APP_TAG, "Authentication error", sx);
+            result.setHttpCode(401);
+            return result;
         } catch (Exception ex) {
             Log.d(BaseActivity.APP_TAG, "HTTP error", ex);
             result.setHttpCode(500);

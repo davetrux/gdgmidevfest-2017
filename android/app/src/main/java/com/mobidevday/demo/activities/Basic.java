@@ -28,6 +28,11 @@ public class Basic extends BaseActivity {
         mLogin.setOnClickListener(loginListener);
 
         mPersonList = (ListView) findViewById(R.id.results);
+
+        if(mAction.equalsIgnoreCase("hmac-auth")){
+            EditText passwordField = (EditText) findViewById(R.id.password);
+            passwordField.setEnabled(false);
+        }
     }
 
     private View.OnClickListener loginListener = new View.OnClickListener(){
