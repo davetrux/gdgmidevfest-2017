@@ -26,7 +26,7 @@ public class AuthFilter implements ContainerRequestFilter {
         //Get the HTTP authorization header
         String authHeader = containerRequest.getHeaderValue("authorization");
 
-        log.warning(String.format("Header: %s", authHeader));
+        log.info(String.format("Header: %s", authHeader));
 
         if(authHeader == null || !authHeader.startsWith("HMAC")){
             log.severe("No authentication info found");
