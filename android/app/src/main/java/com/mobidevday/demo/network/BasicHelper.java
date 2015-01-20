@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
@@ -17,13 +16,16 @@ import java.net.URL;
 
 /**
  * Created by david on 1/3/15.
+ * Helper class for Basic Authentication
  */
 public class BasicHelper {
 
     private static final String GET = "GET";
-    private static int mRetries = 0;
+    private static int mRetries;
 
     public String getPersonJson(final String userName, final String password) throws IOException {
+
+        mRetries = 0;
 
         //This is the key action for HTTP Basic
         Authenticator.setDefault(new Authenticator() {
@@ -46,7 +48,6 @@ public class BasicHelper {
 
     private WebResult executeHTTP(String url) throws IOException {
 
-        OutputStream os = null;
         BufferedReader in = null;
         final WebResult result = new WebResult();
         result.setHttpBody("");
@@ -59,7 +60,7 @@ public class BasicHelper {
 
             in = new BufferedReader(new InputStreamReader(inputFromServer));
             String inputLine;
-            StringBuffer json = new StringBuffer();
+            StringBuilder json = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
                 json.append(inputLine);
@@ -82,9 +83,6 @@ public class BasicHelper {
             //clean up
             if (in != null) {
                 in.close();
-            }
-            if (os != null) {
-                os.close();
             }
         }
     }
