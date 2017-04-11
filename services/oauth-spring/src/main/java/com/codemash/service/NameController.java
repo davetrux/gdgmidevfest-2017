@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Created by david on 12/22/14.
+ * @author trux
  */
 @Controller
 @RequestMapping("/api")
