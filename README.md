@@ -1,19 +1,16 @@
-CodeMash-2.0.1.5
+GDG Michigan DevFest 2017
 ================
 
-Projects for my talk Mobile Authentication in the Web World
+Projects for my talk Android Authentication in the Web World
 
 ## android
 Contains an example Android app that performs many of the authentication types discussed.
-
-## ios
-Contains and example iOS app written in Swift
 
 ## services
 Three different implementations of the same web services to handle the different authentication types
 
 ### hmac-java
-A Java implementation of HMAC using JAX-RS/Jersey. This is a simplified implementation, it is not secure.
+A Java implementation of HMAC using JAX-RS/Jersey. This is a simplified implementation for demonstration, it is not secure.
 
 ### ntlm-dotnet
 An ASP.NET 4 project containing an MVC forms-based login and the REST API via WCF.
