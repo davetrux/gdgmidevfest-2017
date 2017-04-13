@@ -8,7 +8,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/mvc-dispatcher-servlet.xml
-            /WEB-INF/mvc-dispatcher-servlet-security-basic.xml
+            /WEB-INF/mvc-dispatcher-servlet-security-digest.xml
         </param-value>
     </context-param>
 
