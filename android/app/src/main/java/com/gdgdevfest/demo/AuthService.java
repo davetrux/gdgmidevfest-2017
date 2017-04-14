@@ -1,4 +1,4 @@
-package com.mobidevday.demo;
+package com.gdgdevfest.demo;
 
 import android.app.Activity;
 import android.app.IntentService;
@@ -6,14 +6,8 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.mobidevday.demo.network.BasicHelper;
-import com.mobidevday.demo.network.DigestHelper;
-import com.mobidevday.demo.network.HmacAuth;
-import com.mobidevday.demo.network.NtlmHelper;
-import com.mobidevday.demo.network.OauthData;
-import com.mobidevday.demo.network.OauthHelper;
-import com.mobidevday.demo.network.WebHelper;
-import com.mobidevday.demo.network.WebResult;
+import com.gdgdevfest.demo.network.*;
+
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;

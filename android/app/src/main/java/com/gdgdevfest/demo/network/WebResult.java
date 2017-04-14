@@ -1,4 +1,4 @@
-package com.mobidevday.demo.network;
+package com.gdgdevfest.demo.network;
 
 /**
  * Created by david on 1/3/15.

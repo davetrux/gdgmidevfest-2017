@@ -1,11 +1,11 @@
-package com.mobidevday.demo.network;
+package com.gdgdevfest.demo.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.mobidevday.demo.Settings;
-import com.mobidevday.demo.ntlm.NTLMSchemeFactory;
+import com.gdgdevfest.demo.Settings;
+import com.gdgdevfest.demo.ntlm.NTLMSchemeFactory;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;

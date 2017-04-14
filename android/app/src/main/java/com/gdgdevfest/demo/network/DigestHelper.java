@@ -1,10 +1,10 @@
-package com.mobidevday.demo.network;
+package com.gdgdevfest.demo.network;
 
 import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
-import com.mobidevday.demo.Settings;
-import com.mobidevday.demo.activities.BaseActivity;
+import com.gdgdevfest.demo.Settings;
+import com.gdgdevfest.demo.activities.BaseActivity;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
@@ -22,10 +22,6 @@ import org.apache.http.protocol.HttpContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
-import java.net.PasswordAuthentication;
 import java.net.URL;
 
 /**

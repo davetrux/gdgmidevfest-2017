@@ -1,46 +1,61 @@
-package com.mobidevday.demo.network;
+package com.gdgdevfest.demo.network;
 
 import android.util.Log;
 
-import com.mobidevday.demo.Settings;
-import com.mobidevday.demo.activities.BaseActivity;
+import com.gdgdevfest.demo.Settings;
+import com.gdgdevfest.demo.activities.BaseActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 
 /**
- * Created by trux on 1/6/15.
+ * Created by david on 1/3/15.
+ * Helper class for Basic Authentication
  */
-public class WebHelper {
+public class BasicHelper {
 
     private static final String GET = "GET";
+    private static int mRetries;
 
-    public WebResult getPersonJsonForm(final String cookie) throws IOException {
+    public String getPersonJson(final String userName, final String password) throws IOException {
 
-        return executeHTTP(Settings.FORM_URL, "Cookie", cookie);
+        mRetries = 0;
+
+        //This is the key action for HTTP Basic
+        Authenticator.setDefault(new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+
+                if(mRetries > 0) {
+                    throw new SecurityException("Unauthorized");
+                }
+
+                mRetries ++;
+
+                return new PasswordAuthentication(userName, password.toCharArray());
+            }
+        });
+
+        WebResult result = executeHTTP(Settings.BASIC_URL);
+
+        return result.getHttpBody();
     }
 
-    public WebResult getPersonJsonHmac(final String signature, String md5) throws IOException {
+    private WebResult executeHTTP(String url) throws IOException {
 
-        return executeHTTP(Settings.HMAC_URL, "Authorization", signature);
-    }
-
-    private WebResult executeHTTP(String url, String headerName, String headerValue) throws IOException {
-
-        OutputStream os = null;
         BufferedReader in = null;
         final WebResult result = new WebResult();
-
+        result.setHttpBody("");
         try {
             final URL networkUrl = new URL(url);
             final HttpURLConnection conn = (HttpURLConnection) networkUrl.openConnection();
             conn.setRequestMethod(GET);
-            conn.setRequestProperty(headerName, headerValue);
+
             final InputStream inputFromServer = conn.getInputStream();
 
             in = new BufferedReader(new InputStreamReader(inputFromServer));
@@ -56,6 +71,10 @@ public class WebHelper {
 
             return result;
 
+        } catch (SecurityException sx) {
+            Log.d(BaseActivity.APP_TAG, "Authentication error", sx);
+            result.setHttpCode(401);
+            return result;
         } catch (Exception ex) {
             Log.d(BaseActivity.APP_TAG, "HTTP error", ex);
             result.setHttpCode(500);
@@ -64,9 +83,6 @@ public class WebHelper {
             //clean up
             if (in != null) {
                 in.close();
-            }
-            if (os != null) {
-                os.close();
             }
         }
     }

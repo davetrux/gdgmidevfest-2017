@@ -1,4 +1,4 @@
-package com.mobidevday.demo.ntlm;
+package com.gdgdevfest.demo.ntlm;
 
 import org.apache.http.auth.AuthScheme;
 import org.apache.http.auth.AuthSchemeFactory;

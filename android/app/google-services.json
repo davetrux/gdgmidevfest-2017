@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "24300984289",
+    "project_id": "gdg-devfest-2017"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24300984289:android:ab650a56555bbe89",
+        "android_client_info": {
+          "package_name": "com.gdgdevfest.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24300984289-f7r94e8j1l66akalar2q0fcf2tfs4223.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gdgdevfest.demo",
+            "certificate_hash": "cf54d02138bada979e2b9fe94834b4d59bda2087"
+          }
+        },
+        {
+          "client_id": "24300984289-1bl34er48rpqp0dgeg7er2quvp1cjhu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN0sIQ5aCIBQWCXzBeB_bMVMcxdjVz3W8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

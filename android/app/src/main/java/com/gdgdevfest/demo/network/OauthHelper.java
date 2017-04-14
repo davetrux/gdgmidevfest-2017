@@ -1,4 +1,4 @@
-package com.mobidevday.demo.network;
+package com.gdgdevfest.demo.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,8 +6,8 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.mobidevday.demo.Settings;
-import com.mobidevday.demo.activities.BaseActivity;
+import com.gdgdevfest.demo.Settings;
+import com.gdgdevfest.demo.activities.BaseActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;

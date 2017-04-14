@@ -1,4 +1,4 @@
-package com.mobidevday.demo.activities;
+package com.gdgdevfest.demo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.mobidevday.demo.AuthService;
-import com.mobidevday.demo.R;
-import com.mobidevday.demo.Settings;
+import com.gdgdevfest.demo.AuthService;
+import com.gdgdevfest.demo.R;
+import com.gdgdevfest.demo.Settings;
 
 public class Form extends BaseActivity {
 

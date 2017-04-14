@@ -1,4 +1,4 @@
-package com.mobidevday.demo.activities;
+package com.gdgdevfest.demo.activities;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -12,9 +12,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mobidevday.demo.AuthService;
-import com.mobidevday.demo.Person;
-import com.mobidevday.demo.PersonAdapter;
+import com.gdgdevfest.demo.AuthService;
+import com.gdgdevfest.demo.Person;
+import com.gdgdevfest.demo.PersonAdapter;
 
 import java.util.ArrayList;
 

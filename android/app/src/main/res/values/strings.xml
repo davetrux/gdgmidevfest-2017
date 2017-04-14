@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Authenticator</string>
+    <string name="app_name">GDG Demo</string>
     <string name="device_account">oAuth</string>
     <string name="form_account">Web Form</string>
     <string name="windows_account">Windows</string>

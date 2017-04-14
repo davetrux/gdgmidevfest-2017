@@ -1,4 +1,4 @@
-package com.mobidevday.demo;
+package com.gdgdevfest.demo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import com.mobidevday.demo.activities.Basic;
-import com.mobidevday.demo.activities.Form;
-import com.mobidevday.demo.activities.Windows;
-import com.mobidevday.demo.activities.oAuth;
-import com.mobidevday.demo.network.NtlmHelper;
+import com.gdgdevfest.demo.activities.Basic;
+import com.gdgdevfest.demo.activities.Form;
+import com.gdgdevfest.demo.activities.Windows;
+import com.gdgdevfest.demo.activities.oAuth;
+import com.gdgdevfest.demo.network.NtlmHelper;
 
 public class Main extends Activity {
 

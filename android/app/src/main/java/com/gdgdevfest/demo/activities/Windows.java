@@ -1,57 +1,59 @@
-package com.mobidevday.demo.activities;
+package com.gdgdevfest.demo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
-import com.mobidevday.demo.AuthService;
-import com.mobidevday.demo.R;
-import com.mobidevday.demo.Settings;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class Basic extends BaseActivity {
+import com.gdgdevfest.demo.AuthService;
+import com.gdgdevfest.demo.R;
+import com.gdgdevfest.demo.Settings;
 
-    private String mAction;
+public class Windows extends BaseActivity {
+
+    private Button mLogin;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.basic);
+        setContentView(R.layout.windows);
 
         String title = getIntent().getStringExtra("title");
-        mAction = getIntent().getStringExtra("action");
 
         TextView titleText = (TextView) findViewById(R.id.title);
         titleText.setText(title);
 
-        Button mLogin = (Button) findViewById(R.id.login);
+        mLogin = (Button) findViewById(R.id.login);
         mLogin.setOnClickListener(loginListener);
 
         mPersonList = (ListView) findViewById(R.id.results);
-
-        if(mAction.equalsIgnoreCase("hmac-auth")){
-            EditText passwordField = (EditText) findViewById(R.id.password);
-            passwordField.setEnabled(false);
-        }
     }
 
     private View.OnClickListener loginListener = new View.OnClickListener(){
             public void onClick(View v){
-                //Hide the keyboard
+                //Get rid of the keyboard
                 InputMethodManager inputManager = (InputMethodManager)
-                                                  getSystemService(INPUT_METHOD_SERVICE);
+                                                  getSystemService(Windows.this.INPUT_METHOD_SERVICE);
 
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                                                      InputMethodManager.HIDE_NOT_ALWAYS);
 
+
+                EditText domainField = (EditText) findViewById(R.id.domain);
                 EditText userNameField = (EditText) findViewById(R.id.user_name);
                 EditText passwordField = (EditText) findViewById(R.id.password);
 
-                //Send credentials via intent
-                Intent intent = new Intent(Basic.this, AuthService.class);
-                intent.setAction(mAction);
+                //Send cookie value via intent
+                Intent intent = new Intent(Windows.this, AuthService.class);
+                intent.setAction("windows-auth");
+                intent.putExtra("domain", domainField.getText().toString().trim());
                 intent.putExtra("username", userNameField.getText().toString().trim());
                 intent.putExtra("password", passwordField.getText().toString().trim());
+                intent.putExtra("url", Settings.WINDOWS_URL);
                 startService(intent);
             }
     };

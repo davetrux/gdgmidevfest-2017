@@ -1,4 +1,4 @@
-package com.mobidevday.demo.ntlm;
+package com.gdgdevfest.demo.ntlm;
 
 import jcifs.ntlmssp.NtlmFlags;
 import jcifs.ntlmssp.Type1Message;
