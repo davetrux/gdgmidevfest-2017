@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <sec:http disable-url-rewriting="true" entry-point-ref="forbiddenEntryPoint" use-expressions="true" create-session="never">
+        <sec:anonymous enabled="false"/>
+        <sec:session-management session-fixation-protection="none"/>
+        <sec:custom-filter ref="restAuthenticationFilter" position="FORM_LOGIN_FILTER"/>
+        <sec:intercept-url pattern="/api/**" access="isFullyAuthenticated()"/>
+    </sec:http>
+
+    <bean id="forbiddenEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
+
+    <bean id="restAuthenticationFilter" class="com.gdgmidevfest.auth.GoogleFilter">
+        <constructor-arg name="defaultFilterProcessesUrl" value="/"/>
+        <property name="authenticationManager" ref="defaultAuthenticationManager"/>
+        <property name="authenticationSuccessHandler">
+            <!-- Upon successful authentication, Spring will attempt to try and move you to another URL -->
+            <!-- We have to prevent this because the request for the resource and the authentication all get done in the same request! -->
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+                <property name="redirectStrategy">
+                    <bean class="com.gdgmidevfest.auth.NoRedirectStrategy"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <sec:authentication-manager alias="defaultAuthenticationManager" erase-credentials="true">
+        <sec:authentication-provider ref="googleAuthenticationProvider"/>
+    </sec:authentication-manager>
+
+    <bean id="googleAuthenticationProvider" class="com.gdgmidevfest.auth.GoogleAuthenticationProvider">
+
+    </bean>
+
+</beans>
