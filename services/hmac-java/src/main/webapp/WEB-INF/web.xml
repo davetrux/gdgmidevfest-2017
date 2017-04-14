@@ -4,6 +4,7 @@
            xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
+	<display-name>HMAC Services</display-name>
     <servlet>
    	   <servlet-name>Jersey REST Service</servlet-name>
    	   <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>

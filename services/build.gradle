@@ -1,0 +1,9 @@
+// Docker:
+// 
+allprojects {
+    task hello {
+        doLast { task ->
+            println "Building $task.project.name"
+        }
+    }
+}

@@ -1,11 +1,15 @@
 
 apply plugin: 'war'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 version = '1.0'
 
 repositories {
     mavenCentral()
+}
+
+war {
+    archiveName = 'hmac.war'
 }
 
 dependencies {

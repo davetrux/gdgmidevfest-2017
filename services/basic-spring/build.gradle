@@ -9,6 +9,9 @@ description = "basic-spring"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+war {
+    archiveName = 'basic.war'
+}
 
 repositories {
     mavenCentral()

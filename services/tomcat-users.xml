@@ -1,0 +1,3 @@
+<tomcat-users>
+  <user username="gdg-admin" password="androidrules" roles="manager-gui"/>
+</tomcat-users>
