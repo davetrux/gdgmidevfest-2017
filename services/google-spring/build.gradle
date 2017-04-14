@@ -1,10 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'war'
 
-group = 'com.codemash'
+group = 'com.gdgmidevfest'
 version = '1.0-SNAPSHOT'
 
-description = "basic-spring"
+description = "google-spring"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
