@@ -17,4 +17,4 @@ do
 done
 
 #Start a container with this image
-docker run --name gdg-api --restart=always -p 8000:8080 -d "${imageName}"
+docker run --name gdg-api --restart=always -p 8003:8080 -d "${imageName}"
