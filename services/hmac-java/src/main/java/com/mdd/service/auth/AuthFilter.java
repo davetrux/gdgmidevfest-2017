@@ -18,7 +18,7 @@ public class AuthFilter implements ContainerRequestFilter {
     private static final String HMAC_PRIVATE = "4c4a3f0d-3dff-475a-afcc-6ec86fc0b126";
 
     //This should really be from a user store, but for a demo it's just a constant
-    private static final String HMAC_USER = "CodeMash";
+    private static final String HMAC_USER = "gdg";
 
     @Override
     public ContainerRequest filter(ContainerRequest containerRequest) {
