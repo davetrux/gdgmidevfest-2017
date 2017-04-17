@@ -49,13 +49,16 @@ public class AuthFilter implements ContainerRequestFilter {
         }
 
         String url = containerRequest.getRequestUri().toString();
-
+        log.info(url);
+        //String url = "https://orion.digitalhpe.com/gdg/hmac/api/names/3";
         try {
             String md5 = HmacAuth.createMd5Hash(url);
 
             String hmacString = containerRequest.getMethod() + md5 + url;
 
             String calcSignature = HmacAuth.calculateRFC2104HMAC(hmacString, HMAC_PRIVATE);
+
+            log.info(calcSignature);
 
             authenticated = creds[1].equals(calcSignature);
 
