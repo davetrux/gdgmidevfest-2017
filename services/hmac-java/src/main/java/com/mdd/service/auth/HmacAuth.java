@@ -10,8 +10,9 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 /**
- * Created by trux on 1/6/15.
+ * @author trux
  */
+
 public class HmacAuth {
 
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";

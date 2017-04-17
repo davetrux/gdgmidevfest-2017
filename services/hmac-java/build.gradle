@@ -1,8 +1,13 @@
-
+apply plugin: 'java'
 apply plugin: 'war'
 
-sourceCompatibility = 1.8
+group = 'com.mdd'
 version = '1.0'
+
+description = "hmac-java"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -12,10 +17,20 @@ war {
     archiveName = 'hmac.war'
 }
 
+def springVersion = '4.3.6.RELEASE'
+def springSecurityVersion = '4.2.2.RELEASE'
+
 dependencies {
-    compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.17'
-    compile group: 'com.sun.jersey', name: 'jersey-server', version: '1.17'
-    compile group: 'com.sun.jersey', name: 'jersey-servlet', version: '1.17'
-    compile group: 'com.sun.jersey', name: 'jersey-json', version: '1.17'
-    //compile group: 'javax.ws.rs', name: 'jsr311-api', version: '1.1.1'
+
+    compile group: 'org.springframework', name: 'spring-core', version: springVersion
+    compile group: 'org.springframework', name: 'spring-web', version: springVersion
+    compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: springSecurityVersion
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: springSecurityVersion
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.8.8'
+
+    compile group: 'com.google.guava', name: 'guava', version: '21.0'
+
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0' // Provided by Tomcat 8
+
 }

@@ -1,5 +1,7 @@
 package com.mdd.service;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: david
@@ -7,7 +9,7 @@ package com.mdd.service;
  * Time: 9:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Person {
+public class Person implements Serializable {
     private String FirstName;
     private String LastName;
     private String Gender;
