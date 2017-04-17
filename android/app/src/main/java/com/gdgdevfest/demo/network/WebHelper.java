@@ -2,11 +2,12 @@ package com.gdgdevfest.demo.network;
 
 import android.app.Activity;
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.burgstaller.okhttp.digest.Credentials;
+import com.burgstaller.okhttp.digest.DigestAuthenticator;
 import com.gdgdevfest.demo.Person;
 import com.gdgdevfest.demo.Settings;
 import com.gdgdevfest.demo.activities.BaseActivity;
@@ -64,8 +65,6 @@ public class WebHelper {
 
         service = retrofit.create(NameWebService.class);
 
-        final WebResult result = new WebResult();
-
         Call<List<Person>> call = service.getBasicNames(5);
 
         call.enqueue(new Callback<List<Person>>() {
@@ -85,6 +84,38 @@ public class WebHelper {
             }
         });
     }
+
+    public void getPersonDigestAuth(String userName, String password) {
+        final DigestAuthenticator authenticator = new DigestAuthenticator(new Credentials(userName, password));
+
+        httpClient.authenticator(authenticator);
+
+        builder.client(httpClient.build());
+        retrofit = builder.build();
+
+
+        service = retrofit.create(NameWebService.class);
+        Call<List<Person>> call = service.getBasicNames(7);
+
+        call.enqueue(new Callback<List<Person>>() {
+            @Override
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
+                int statusCode = response.code();
+                ArrayList<Person> found = (ArrayList<Person>) response.body();
+
+                sendResult(found, "digest-data", Activity.RESULT_OK);
+            }
+
+            @Override
+            public void onFailure(Call<List<Person>> call, Throwable t) {
+                // Log error here since request failed
+
+                sendResult(new ArrayList<Person>(), "digest-data", AUTH_FAILED);
+            }
+        });
+
+    }
+
 
 
     private void sendResult(ArrayList<Person> data, String action, int result) {

@@ -57,21 +57,8 @@ public class AuthService extends IntentService {
     }
 
     private void getDigestData(String userName, String password){
-        DigestHelper http = new DigestHelper();
-        String webResult;
-        int result = 2;
-
-        try {
-            webResult = http.getPersonJson(userName, password);
-            if(!webResult.equalsIgnoreCase("")) {
-                result = Activity.RESULT_OK;
-            }
-        } catch (IOException e) {
-            webResult = "";
-            Log.d(getClass().getName(), "Exception calling service", e);
-        }
-
-        sendResult(webResult, AUTH_RESULT, "digest-data", result);
+        WebHelper http = new WebHelper(this);
+        http.getPersonDigestAuth(userName, password);
     }
 
     private void getHmacData(String userName) {
