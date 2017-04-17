@@ -42,7 +42,7 @@ public class HmacFilter extends AbstractAuthenticationProcessingFilter {
         input.setHash(creds[1]);
         input.setMethod(request.getMethod());
         input.setUrl(request.getRequestURL().toString());
-
+        //input.setUrl("https://orion.digitalhpe.com/gdg/hmac/api/names/3");
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             input.setBody(CharStreams.toString(request.getReader()));
         } else {

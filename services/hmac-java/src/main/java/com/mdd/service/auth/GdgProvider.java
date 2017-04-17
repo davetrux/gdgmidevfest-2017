@@ -34,7 +34,7 @@ public class GdgProvider implements AuthenticationProvider {
         try {
             String md5 = HmacAuth.createMd5Hash(input.getUrl() + input.getBody());
 
-            String hmacString = input.getMethod() + md5;
+            String hmacString = input.getMethod() + md5 + input.getUrl();
 
             String calcSignature = HmacAuth.calculateRFC2104HMAC(hmacString, HMAC_PRIVATE);
 
