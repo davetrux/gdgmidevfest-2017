@@ -1,18 +1,23 @@
 package com.gdgdevfest.demo;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Person implements Parcelable {
 
     //The naming scheme for these variables is due to gson
     @SerializedName("firstName")
+    @Expose
     private String mFirstName;
 
     @SerializedName("lastName")
+    @Expose
     private String mLastName;
 
     @SerializedName("gender")
+    @Expose
     private String mGender;
 
 

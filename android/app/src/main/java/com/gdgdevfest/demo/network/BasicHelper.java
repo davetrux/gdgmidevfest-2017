@@ -14,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by david on 1/3/15.
  * Helper class for Basic Authentication
@@ -51,9 +53,11 @@ public class BasicHelper {
         BufferedReader in = null;
         final WebResult result = new WebResult();
         result.setHttpBody("");
+        final URL networkUrl = new URL(url);
+        final HttpsURLConnection conn = (HttpsURLConnection) networkUrl.openConnection();
+
         try {
-            final URL networkUrl = new URL(url);
-            final HttpURLConnection conn = (HttpURLConnection) networkUrl.openConnection();
+
             conn.setRequestMethod(GET);
 
             final InputStream inputFromServer = conn.getInputStream();
@@ -73,11 +77,13 @@ public class BasicHelper {
 
         } catch (SecurityException sx) {
             Log.d(BaseActivity.APP_TAG, "Authentication error", sx);
-            result.setHttpCode(401);
+            int status = conn.getResponseCode();
+            result.setHttpCode(status);
             return result;
         } catch (Exception ex) {
             Log.d(BaseActivity.APP_TAG, "HTTP error", ex);
-            result.setHttpCode(500);
+            int status = conn.getResponseCode();
+            result.setHttpCode(status);
             return result;
         } finally {
             //clean up

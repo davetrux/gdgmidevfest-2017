@@ -12,11 +12,14 @@ import com.gdgdevfest.demo.network.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthService extends IntentService {
 
     public static final String AUTH_RESULT = "AUTH-RESULT";
     private static final String HMAC_PRIVATE = "4c4a3f0d-3dff-475a-afcc-6ec86fc0b126";
+
 
     public AuthService() {
         super("AuthService");
@@ -72,7 +75,7 @@ public class AuthService extends IntentService {
     }
 
     private void getHmacData(String userName) {
-        WebHelper http = new WebHelper();
+        WebHelper http = new WebHelper(this);
         WebResult webResult;
         int result = 2;
         try {
@@ -149,7 +152,7 @@ public class AuthService extends IntentService {
      * Forms Auth
      */
     private void getFormsData(String cookie){
-        WebHelper http = new WebHelper();
+        WebHelper http = new WebHelper(this);
         WebResult webResult;
         int result = 2;
         try {
@@ -169,21 +172,8 @@ public class AuthService extends IntentService {
      * Basic Auth
      */
     private void getBasicData(String user, String password) {
-        BasicHelper http = new BasicHelper();
-        String webResult;
-        int result = 2;
-
-        try {
-            webResult = http.getPersonJson(user, password);
-            if(!webResult.equalsIgnoreCase("")) {
-                result = Activity.RESULT_OK;
-            }
-        } catch (IOException e) {
-            webResult = "";
-            Log.d(getClass().getName(), "Exception calling service", e);
-        }
-
-        sendResult(webResult, AUTH_RESULT, "basic-data", result);
+        WebHelper http = new WebHelper(this);
+        http.getPersonBasicAuth(user, password);
     }
 
     /*

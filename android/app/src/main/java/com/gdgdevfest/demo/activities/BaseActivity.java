@@ -16,11 +16,13 @@ import com.gdgdevfest.demo.AuthService;
 import com.gdgdevfest.demo.Person;
 import com.gdgdevfest.demo.PersonAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BaseActivity extends Activity {
 
-    public static final String APP_TAG = "com.mobidevday.demo";
+    public static final String APP_TAG = "com.gdgdevfest.demo";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +48,10 @@ public class BaseActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             int serviceResult = intent.getIntExtra("result", -1);
             if (serviceResult == RESULT_OK) {
-                String json = intent.getStringExtra("data");
+                mData = intent.getParcelableArrayListExtra("data");
 
-                Gson parser = new Gson();
-                mData = parser.fromJson(json, new TypeToken<ArrayList<Person>>(){}.getType());
+                //Gson parser = new Gson();
+                //mData = parser.fromJson(json, new TypeToken<ArrayList<Person>>(){}.getType());
 
                 BindPersonList(context);
 

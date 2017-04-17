@@ -1,7 +1,7 @@
 package com.gdgdevfest.demo;
 
 /**
- * Created by david on 1/3/15.
+ * @author trux 1/3/15.
  */
 public class Settings {
 
@@ -11,9 +11,10 @@ public class Settings {
     public static final String FORM_LOGIN = "http://" + WINDOWS_BASE + "/mddf/";
     public static final String WINDOWS_URL = "http://" + WINDOWS_BASE + "/mddw" + REST_URL;
 
-    public static final String BASIC_URL = "http://codemash-basic.appspot.com/api/names/11";
-    public static final String DIGEST_URL = "http://codemash-digest.appspot.com/api/names/11";
-    public static final String HMAC_URL = "http://codemash-hmac.appspot.com" + REST_URL;
+    public static final String BASE_URL = "https://orion.digitalhpe.com/";
+    public static final String BASIC_URL = "https://orion.digitalhpe.com/gdg/basic/api/names/11";
+    public static final String DIGEST_URL = "https://orion.digitalhpe.com/gdg/basic/api/names/5";
+    public static final String HMAC_URL = "https://orion.digitalhpe.com/gdg/hmac/api/names/3";
     //public static final String HMAC_URL = "http://10.32.41.1:8080" + REST_URL;
 
     public static final int OAUTH_REFRESH_TIMEOUT = 600;
