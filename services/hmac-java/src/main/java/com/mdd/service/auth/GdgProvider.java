@@ -60,6 +60,9 @@ public class GdgProvider implements AuthenticationProvider {
             LOG.severe("Md5 algorithm missing");
         } catch (UnsupportedEncodingException e) {
             LOG.severe("UTF-8 encoding missing");
+        } catch (Exception ex) {
+
+            LOG.severe(ex.getMessage());
         }
         token = new GdgToken(authentication.getPrincipal().toString(), input);
         token.setAuthenticated(false);
