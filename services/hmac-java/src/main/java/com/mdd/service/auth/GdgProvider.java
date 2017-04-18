@@ -46,10 +46,11 @@ public class GdgProvider implements AuthenticationProvider {
                 List<GrantedAuthority> grantedAuths = new ArrayList<>();
                 grantedAuths.add(new SimpleGrantedAuthority(USER_ROLE));
                 token = new GdgToken(authentication.getPrincipal().toString(), input, grantedAuths);
-
+                token.setAuthenticated(true);
             } else {
-                token = new GdgToken(authentication.getPrincipal().toString(), input);
-                token.setAuthenticated(false);
+                token = null;
+//                token = new GdgToken(authentication.getPrincipal().toString(), input);
+//                token.setAuthenticated(false);
             }
             return token;
 
