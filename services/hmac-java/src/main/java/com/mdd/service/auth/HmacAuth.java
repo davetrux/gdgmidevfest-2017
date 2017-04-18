@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
+import java.util.logging.Logger;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -17,7 +18,7 @@ public class HmacAuth {
 
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
-
+    private static final Logger LOG = Logger.getLogger(HmacAuth.class.getName());
     /**
      * Computes RFC 2104-compliant HMAC signature.
      * * @param data
@@ -54,6 +55,8 @@ public class HmacAuth {
     }
 
     public static String createMd5Hash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+
+        LOG.info(input);
 
         byte[] bytesOfInput = input.getBytes("UTF-8");
 
