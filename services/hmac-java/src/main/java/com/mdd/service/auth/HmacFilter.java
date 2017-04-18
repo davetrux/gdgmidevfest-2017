@@ -42,7 +42,6 @@ public class HmacFilter extends AbstractAuthenticationProcessingFilter {
         LOG.info(creds[0]);
         LOG.info(creds[1]);
         LOG.info(request.getMethod());
-        LOG.info(request.getRequestURI());
         LOG.info(request.getRequestURL().toString());
         LOG.info("Done");
 
@@ -51,7 +50,7 @@ public class HmacFilter extends AbstractAuthenticationProcessingFilter {
         input.setHash(creds[1]);
         input.setMethod(request.getMethod());
         input.setUrl(request.getRequestURL().toString());
-        //input.setUrl("https://orion.digitalhpe.com/gdg/hmac/api/names/3");
+        //input.setUrl("https://torch.digitalhpe.com/hmac/api/names/3");
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             input.setBody(CharStreams.toString(request.getReader()));
         } else {
