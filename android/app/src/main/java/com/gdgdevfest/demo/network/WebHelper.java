@@ -135,9 +135,52 @@ public class WebHelper {
         return executeHTTP(Settings.FORM_URL, "Cookie", cookie);
     }
 
-    public WebResult getPersonJsonHmac(final String signature, String md5) throws IOException {
+    public void getPersonHmacAuth(final String signature) {
+        HmacInterceptor interceptor = new HmacInterceptor(signature);
 
-        return executeHTTP(Settings.HMAC_URL, "Authorization", signature);
+        if (!httpClient.interceptors().contains(interceptor)) {
+            httpClient.addInterceptor(interceptor);
+
+            builder.client(httpClient.build());
+            retrofit = builder.build();
+        }
+
+        service = retrofit.create(NameWebService.class);
+
+        Call<List<Person>> call = service.getHmacNames(3);
+
+        call.enqueue(new Callback<List<Person>>() {
+            @Override
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
+                int statusCode = response.code();
+
+                if(statusCode == 200) {
+                    ArrayList<Person> found = (ArrayList<Person>) response.body();
+
+                    sendResult(found, "hmac-data", Activity.RESULT_OK);
+                } else {
+
+                    String error = null;
+                    try {
+                        error = response.errorBody().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d(this.getClass().getName(), error);
+
+                    sendResult(new ArrayList<Person>(), "hmac-data", AUTH_FAILED);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Person>> call, Throwable t) {
+                // Log error here since request failed
+
+                sendResult(new ArrayList<Person>(), "hmac-data", AUTH_FAILED);
+            }
+        });
+
     }
 
     private WebResult executeHTTP(String url, String headerName, String headerValue) throws IOException {

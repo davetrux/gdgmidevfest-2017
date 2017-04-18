@@ -1,7 +1,11 @@
 package com.gdgdevfest.demo.network;
 
 import android.util.Base64;
+import android.util.Log;
 
+import com.gdgdevfest.demo.Settings;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,11 +14,36 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Created by trux on 1/6/15.
+ * @author trux
+ * 1/6/15
  */
 public class HmacAuth {
 
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
+    private static final String HMAC_PRIVATE = "4c4a3f0d-3dff-475a-afcc-6ec86fc0b126";
+
+    public String createHmacString(String userName) {
+        try {
+
+            String md5 = HmacAuth.createMd5Hash(Settings.HMAC_URL);
+
+            String hmacString = "GET" + md5 + Settings.HMAC_URL;
+
+            String signature = HmacAuth.calculateRFC2104HMAC(hmacString, HMAC_PRIVATE);
+
+            return   userName + ":" + signature;
+
+        } catch (NoSuchAlgorithmException ax) {
+            Log.d(getClass().getName(), "Exception generating hash", ax);
+            return "";
+        } catch (SignatureException sx) {
+            Log.d(this.getClass().getName(), "Exception generating signature", sx);
+            return "";
+        } catch(UnsupportedEncodingException ux) {
+            Log.d(this.getClass().getName(), "Unsupported encoding");
+            return "";
+        }
+    }
 
     /**
      * Computes RFC 2104-compliant HMAC signature.
@@ -27,7 +56,7 @@ public class HmacAuth {
      * @throws
      * java.security.SignatureException when signature generation fails
      */
-    public static String calculateRFC2104HMAC(String data, String key)
+    private static String calculateRFC2104HMAC(String data, String key)
             throws SignatureException
     {
         String result;
@@ -44,7 +73,7 @@ public class HmacAuth {
             byte[] rawHmac = mac.doFinal(data.getBytes());
 
             // base64-encode the hmac
-            result = Base64.encodeToString(rawHmac, Base64.DEFAULT);
+            result = Base64.encodeToString(rawHmac, Base64.NO_WRAP);
 
         } catch (Exception e) {
             throw new SignatureException("Failed to generate HMAC : " + e.getMessage());
@@ -52,7 +81,7 @@ public class HmacAuth {
         return result;
     }
 
-    public static String createMd5Hash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    private static String createMd5Hash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
         byte[] bytesOfInput = input.getBytes("UTF-8");
 

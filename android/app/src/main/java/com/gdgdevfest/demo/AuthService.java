@@ -5,20 +5,14 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
 import com.gdgdevfest.demo.network.*;
-
-
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class AuthService extends IntentService {
 
     public static final String AUTH_RESULT = "AUTH-RESULT";
-    private static final String HMAC_PRIVATE = "4c4a3f0d-3dff-475a-afcc-6ec86fc0b126";
+
 
 
     public AuthService() {
@@ -63,34 +57,11 @@ public class AuthService extends IntentService {
 
     private void getHmacData(String userName) {
         WebHelper http = new WebHelper(this);
-        WebResult webResult;
-        int result = 2;
-        try {
+        HmacAuth helper = new HmacAuth();
+        String authorization = helper.createHmacString(userName);
 
-            String md5 = HmacAuth.createMd5Hash(Settings.HMAC_URL);
+        http.getPersonHmacAuth(authorization);
 
-            String hmacString = "GET" + md5 + Settings.HMAC_URL;
-
-            String signature = HmacAuth.calculateRFC2104HMAC(hmacString, HMAC_PRIVATE);
-
-            String authorization = "HMAC " + userName + ":" + signature;
-
-            webResult = http.getPersonJsonHmac(authorization, md5);
-            if (webResult.getHttpCode() == 200) {
-                result = Activity.RESULT_OK;
-            }
-        } catch (NoSuchAlgorithmException ax) {
-            webResult = new WebResult();
-            Log.d(getClass().getName(), "Exception generating hash", ax);
-        } catch (SignatureException sx) {
-            webResult = new WebResult();
-            Log.d(getClass().getName(), "Exception generating signature", sx);
-        } catch (IOException e) {
-            webResult = new WebResult();
-            Log.d(getClass().getName(), "Exception calling service", e);
-        }
-
-        sendResult(webResult.getHttpBody(), AUTH_RESULT, "hmac-data", result);
     }
 
     /*
