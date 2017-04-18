@@ -57,6 +57,7 @@ public class HmacAuth {
     public static String createMd5Hash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
         LOG.info(input);
+        LOG.info(Integer.toString(input.length()));
 
         byte[] bytesOfInput = input.getBytes("UTF-8");
 
