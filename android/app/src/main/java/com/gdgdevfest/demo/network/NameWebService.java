@@ -22,4 +22,7 @@ public interface NameWebService {
 
     @GET("/oauth/api/names/{amount}")
     Call<List<Person>> getOauthNames(@Path("amount") int amount);
+
+    @GET("https://gdg.digitalhpe.com/api/names/{amount}")
+    Call<List<Person>> getNtlmNames(@Path("amount") int amount);
 }

@@ -10,15 +10,9 @@ import com.burgstaller.okhttp.digest.Credentials;
 import com.burgstaller.okhttp.digest.DigestAuthenticator;
 import com.gdgdevfest.demo.Person;
 import com.gdgdevfest.demo.Settings;
-import com.gdgdevfest.demo.activities.BaseActivity;
+import com.gdgdevfest.demo.ntlm.NtlmAuthenticator;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,22 +61,7 @@ public class WebHelper {
 
         Call<List<Person>> call = service.getBasicNames(5);
 
-        call.enqueue(new Callback<List<Person>>() {
-            @Override
-            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
-                int statusCode = response.code();
-                ArrayList<Person> found = (ArrayList<Person>) response.body();
-
-                sendResult(found, "basic-data", Activity.RESULT_OK);
-            }
-
-            @Override
-            public void onFailure(Call<List<Person>> call, Throwable t) {
-                // Log error here since request failed
-
-                sendResult(new ArrayList<Person>(), "basic-data", AUTH_FAILED);
-            }
-        });
+        executeCall(call, "basic-data");
     }
 
     public void getPersonDigestAuth(String userName, String password) {
@@ -97,26 +76,25 @@ public class WebHelper {
         service = retrofit.create(NameWebService.class);
         Call<List<Person>> call = service.getBasicNames(7);
 
-        call.enqueue(new Callback<List<Person>>() {
-            @Override
-            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
-                int statusCode = response.code();
-                ArrayList<Person> found = (ArrayList<Person>) response.body();
-
-                sendResult(found, "digest-data", Activity.RESULT_OK);
-            }
-
-            @Override
-            public void onFailure(Call<List<Person>> call, Throwable t) {
-                // Log error here since request failed
-
-                sendResult(new ArrayList<Person>(), "digest-data", AUTH_FAILED);
-            }
-        });
-
+        executeCall(call, "digest-data");
     }
 
 
+    public void getPersonNtlmAuth(final String userName, final String password, final String domain) {
+
+        NtlmAuthenticator authenticator = new NtlmAuthenticator(userName, password, domain);
+
+        httpClient.authenticator(authenticator);
+
+        builder.client(httpClient.build());
+        retrofit = builder.build();
+
+
+        service = retrofit.create(NameWebService.class);
+        Call<List<Person>> call = service.getNtlmNames(4);
+
+        executeCall(call, "ntlm-data");
+    }
 
     private void sendResult(ArrayList<Person> data, String action, int result) {
 
@@ -128,11 +106,6 @@ public class WebHelper {
 
         //Keep the intent local to the application
         LocalBroadcastManager.getInstance(context).sendBroadcast(sendBack);
-    }
-
-    public WebResult getPersonJsonForm(final String cookie) throws IOException {
-
-        return executeHTTP(Settings.FORM_URL, "Cookie", cookie);
     }
 
     public void getPersonHmacAuth(final String signature) {
@@ -149,6 +122,10 @@ public class WebHelper {
 
         Call<List<Person>> call = service.getHmacNames(3);
 
+        executeCall(call, "hmac-data");
+    }
+
+    private void executeCall(Call<List<Person>> call, final String intentMessage) {
         call.enqueue(new Callback<List<Person>>() {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
@@ -157,7 +134,7 @@ public class WebHelper {
                 if(statusCode == 200) {
                     ArrayList<Person> found = (ArrayList<Person>) response.body();
 
-                    sendResult(found, "hmac-data", Activity.RESULT_OK);
+                    sendResult(found, intentMessage, Activity.RESULT_OK);
                 } else {
 
                     String error = null;
@@ -169,58 +146,15 @@ public class WebHelper {
 
                     Log.d(this.getClass().getName(), error);
 
-                    sendResult(new ArrayList<Person>(), "hmac-data", AUTH_FAILED);
+                    sendResult(new ArrayList<Person>(), intentMessage, AUTH_FAILED);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
                 // Log error here since request failed
-
                 sendResult(new ArrayList<Person>(), "hmac-data", AUTH_FAILED);
             }
         });
-
-    }
-
-    private WebResult executeHTTP(String url, String headerName, String headerValue) throws IOException {
-
-        OutputStream os = null;
-        BufferedReader in = null;
-        final WebResult result = new WebResult();
-
-        try {
-            final URL networkUrl = new URL(url);
-            final HttpURLConnection conn = (HttpURLConnection) networkUrl.openConnection();
-            conn.setRequestMethod(GET);
-            conn.setRequestProperty(headerName, headerValue);
-            final InputStream inputFromServer = conn.getInputStream();
-
-            in = new BufferedReader(new InputStreamReader(inputFromServer));
-            String inputLine;
-            StringBuilder json = new StringBuilder();
-
-            while ((inputLine = in.readLine()) != null) {
-                json.append(inputLine);
-            }
-
-            result.setHttpBody(json.toString());
-            result.setHttpCode(conn.getResponseCode());
-
-            return result;
-
-        } catch (Exception ex) {
-            Log.d(BaseActivity.APP_TAG, "HTTP error", ex);
-            result.setHttpCode(500);
-            return result;
-        } finally {
-            //clean up
-            if (in != null) {
-                in.close();
-            }
-            if (os != null) {
-                os.close();
-            }
-        }
     }
 }

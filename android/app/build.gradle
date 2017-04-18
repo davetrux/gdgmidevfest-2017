@@ -4,6 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
+    //This allows us to use the deprecated Apache client in API > 23
     useLibrary  'org.apache.http.legacy'
 
     defaultConfig {

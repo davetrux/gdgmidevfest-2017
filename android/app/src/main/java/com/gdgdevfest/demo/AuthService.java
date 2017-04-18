@@ -33,11 +33,8 @@ public class AuthService extends IntentService {
 
             getOauthData(intent.getStringExtra("username"), intent.getStringExtra("password"), data);
         }
-        else if ("forms-auth".equals(intent.getAction())) {
-            getFormsData(intent.getStringExtra("cookie"));
-        }
         else if ("windows-auth".equals(intent.getAction())) {
-            getWindowsData(intent.getStringExtra("url"), intent.getStringExtra("username"), intent.getStringExtra("password"), intent.getStringExtra("domain"));
+            getNtlmData(intent.getStringExtra("username"), intent.getStringExtra("password"), intent.getStringExtra("domain"));
         }
         else if ("basic-auth".equals(intent.getAction())){
             getBasicData(intent.getStringExtra("username"), intent.getStringExtra("password"));
@@ -86,67 +83,17 @@ public class AuthService extends IntentService {
         sendResult(webResult, AUTH_RESULT, "oauth-data", result);
     }
 
-    /*
-     * Windows Auth
-     */
-    private void getWindowsData(String url, String userName, String password, String domain){
-        NtlmHelper http = new NtlmHelper();
-        String webResult;
-        int result = 2;
-        try {
-            webResult = http.getHttp(url, userName, password, domain);
-            if(!webResult.equalsIgnoreCase("")) {
-                result = Activity.RESULT_OK;
-            }
-        } catch (IOException e) {
-            webResult = "";
-            Log.d(getClass().getName(), "Exception calling service", e);
-        }
-
-        sendResult(webResult, AUTH_RESULT, "windows-data", result);
-    }
-
-    /*
-     * Forms Auth
-     */
-    private void getFormsData(String cookie){
+    private void getNtlmData(String userName, String password, String domain){
         WebHelper http = new WebHelper(this);
-        WebResult webResult;
-        int result = 2;
-        try {
-            webResult = http.getPersonJsonForm(cookie);
-            if(webResult.getHttpCode() == 200) {
-                result = Activity.RESULT_OK;
-            }
-        } catch (IOException e) {
-            webResult = new WebResult();
-            Log.d(getClass().getName(), "Exception calling service", e);
-        }
-
-        sendResult(webResult.getHttpBody(), AUTH_RESULT, "forms-data", result);
+        http.getPersonNtlmAuth(userName, password, domain);
     }
 
-    /*
+       /*
      * Basic Auth
      */
     private void getBasicData(String user, String password) {
         WebHelper http = new WebHelper(this);
         http.getPersonBasicAuth(user, password);
-    }
-
-    /*
-     * Place the results into an intent and return it to the caller
-     */
-    private void sendResult(String data, String name, String action, int result) {
-
-        Intent sendBack = new Intent(name);
-
-        sendBack.putExtra("call", action);
-        sendBack.putExtra("result", result);
-        sendBack.putExtra("data", data);
-
-        //Keep the intent local to the application
-        LocalBroadcastManager.getInstance(this).sendBroadcast(sendBack);
     }
 
     private void sendResult(OauthData data, String name, String action, int result) {
