@@ -42,6 +42,7 @@ public class HmacFilter extends AbstractAuthenticationProcessingFilter {
         LOG.info(creds[0]);
         LOG.info(creds[1]);
         LOG.info(request.getMethod());
+        LOG.info(request.getRequestURI());
         LOG.info(request.getRequestURL().toString());
         LOG.info("Done");
 
