@@ -31,14 +31,18 @@ public class GdgProvider implements AuthenticationProvider {
         //String user = authentication.getPrincipal().toString();
         GdgToken token;
 
-        LOG.info(input.getUrl());
-
         try {
             String md5 = HmacAuth.createMd5Hash(input.getUrl() + input.getBody());
 
+            LOG.info(md5);
+
             String hmacString = input.getMethod() + md5 + input.getUrl();
 
+            LOG.info(hmacString);
+
             String calcSignature = HmacAuth.calculateRFC2104HMAC(hmacString, HMAC_PRIVATE);
+
+            LOG.info(calcSignature);
 
             boolean authenticated = input.getHash().equals(calcSignature);
 
