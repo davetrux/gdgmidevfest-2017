@@ -5,13 +5,13 @@
         android:stretchColumns="*">
     <TableRow>
         <Button
-                android:id="@+id/forms"
-                style="@style/AuthButton"
-                android:text="@string/form_account"/>
-        <Button
                 android:id="@+id/basic"
                 style="@style/AuthButton"
                 android:text="@string/basic_account"/>
+        <Button
+            android:id="@+id/digest"
+            style="@style/AuthButton"
+            android:text="@string/digest"/>
     </TableRow>
     <TableRow>
         <Button
@@ -24,10 +24,7 @@
                 android:text="@string/device_account"/>
     </TableRow>
     <TableRow>
-        <Button
-            android:id="@+id/digest"
-            style="@style/AuthButton"
-            android:text="@string/digest"/>
+
         <Button
             android:id="@+id/hmac"
             style="@style/AuthButton"

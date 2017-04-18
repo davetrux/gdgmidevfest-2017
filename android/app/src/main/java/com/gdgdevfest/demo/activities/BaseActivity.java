@@ -52,9 +52,6 @@ public class BaseActivity extends Activity {
             if (serviceResult == RESULT_OK) {
                 mData = intent.getParcelableArrayListExtra("data");
 
-                //Gson parser = new Gson();
-                //mData = parser.fromJson(json, new TypeToken<ArrayList<Person>>(){}.getType());
-
                 BindPersonList(context);
 
             } else {

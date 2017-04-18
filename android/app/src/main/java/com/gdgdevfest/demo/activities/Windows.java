@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.gdgdevfest.demo.AuthService;
 import com.gdgdevfest.demo.R;
-import com.gdgdevfest.demo.Settings;
 
 public class Windows extends BaseActivity {
 
@@ -47,13 +46,11 @@ public class Windows extends BaseActivity {
                 EditText userNameField = (EditText) findViewById(R.id.user_name);
                 EditText passwordField = (EditText) findViewById(R.id.password);
 
-                //Send cookie value via intent
                 Intent intent = new Intent(Windows.this, AuthService.class);
                 intent.setAction("windows-auth");
                 intent.putExtra("domain", domainField.getText().toString().trim());
                 intent.putExtra("username", userNameField.getText().toString().trim());
                 intent.putExtra("password", passwordField.getText().toString().trim());
-                intent.putExtra("url", Settings.WINDOWS_URL);
                 startService(intent);
             }
     };
