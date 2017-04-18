@@ -28,8 +28,10 @@ public class GdgProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         HmacInput input = (HmacInput) authentication.getCredentials();
-        String user = authentication.getPrincipal().toString();
+        //String user = authentication.getPrincipal().toString();
         GdgToken token;
+
+        LOG.info(input.getUrl());
 
         try {
             String md5 = HmacAuth.createMd5Hash(input.getUrl() + input.getBody());

@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * @author trux
@@ -20,6 +21,7 @@ public class HmacFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String HEADER_MISSING = "No HMAC Header found";
     private static final int SPLIT_LIMIT = 2;
+    private static final Logger LOG = Logger.getLogger(HmacFilter.class.getName());
 
     protected HmacFilter(String defaultFilterProcessesUrl) {
         super(defaultFilterProcessesUrl);
@@ -36,6 +38,12 @@ public class HmacFilter extends AbstractAuthenticationProcessingFilter {
         }
 
         String[] creds = authHeader.replaceFirst(Constants.HEADER_PREFIX, "").split(":", SPLIT_LIMIT);
+
+        LOG.info(creds[0]);
+        LOG.info(creds[1]);
+        LOG.info(request.getMethod());
+        LOG.info(request.getRequestURL().toString());
+        LOG.info("Done");
 
         HmacInput input = new HmacInput();
 
