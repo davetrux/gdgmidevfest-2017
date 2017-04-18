@@ -39,17 +39,14 @@ public class HmacFilter extends AbstractAuthenticationProcessingFilter {
 
         String[] creds = authHeader.replaceFirst(Constants.HEADER_PREFIX, "").split(":", SPLIT_LIMIT);
 
-        LOG.info(creds[0]);
-        LOG.info(creds[1]);
-        LOG.info(request.getMethod());
-        LOG.info(request.getRequestURL().toString());
-        LOG.info("Done");
-
         HmacInput input = new HmacInput();
 
         input.setHash(creds[1]);
         input.setMethod(request.getMethod());
-        input.setUrl(request.getRequestURL().toString());
+        String url = Constants.BASE_URL + request.getRequestURI();
+        LOG.info(url);
+        input.setUrl(url);
+
         //input.setUrl("https://torch.digitalhpe.com/hmac/api/names/3");
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             input.setBody(CharStreams.toString(request.getReader()));
