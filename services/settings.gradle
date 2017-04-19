@@ -1,1 +1,1 @@
-include 'basic-spring', 'hmac-java', 'google-spring'
+include 'basic-spring', 'hmac-java', 'google-spring', 'oauth-spring'
