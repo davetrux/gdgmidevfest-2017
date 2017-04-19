@@ -9,7 +9,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 /**
- * @author trux on 4/17/17
+ * @author trux
+ * @since 4/17/17
  */
 
 public interface NameWebService {

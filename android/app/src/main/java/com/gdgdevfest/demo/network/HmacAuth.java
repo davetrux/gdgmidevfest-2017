@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * @author trux
- * 1/6/15
+ * @since 1/6/15
  */
 public class HmacAuth {
 

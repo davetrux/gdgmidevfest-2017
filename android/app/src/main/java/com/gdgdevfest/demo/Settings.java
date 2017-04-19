@@ -1,7 +1,8 @@
 package com.gdgdevfest.demo;
 
 /**
- * @author trux 1/3/15.
+ * @author trux
+ * @since 1/3/15
  */
 public class Settings {
 

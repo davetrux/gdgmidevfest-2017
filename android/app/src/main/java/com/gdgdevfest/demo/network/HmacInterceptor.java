@@ -7,7 +7,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * @author trux on 4/17/17.
+ * @author trux
+ * @since 4/17/17
  */
 
 public class HmacInterceptor implements Interceptor {
