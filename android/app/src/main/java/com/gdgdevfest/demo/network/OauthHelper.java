@@ -3,6 +3,7 @@ package com.gdgdevfest.demo.network;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.http.HttpsConnection;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -17,6 +18,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by david on 1/3/15.
@@ -95,7 +98,7 @@ public class OauthHelper {
 
         try {
             final URL networkUrl = new URL(url);
-            final HttpURLConnection conn = (HttpURLConnection) networkUrl.openConnection();
+            final HttpsURLConnection conn = (HttpsURLConnection) networkUrl.openConnection();
             conn.setRequestMethod(method);
 
             if(authHeader != null &&!authHeader.isEmpty()) {

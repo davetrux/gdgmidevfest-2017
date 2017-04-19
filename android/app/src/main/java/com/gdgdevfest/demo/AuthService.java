@@ -39,10 +39,10 @@ public class AuthService extends IntentService {
 
         //UXRFPJGwFvvyJI3vFOMIc19r0JNlNSQydEnYRrZI/W4=
 
-        CertificatePinner certificatePinner = new CertificatePinner.Builder()
-                .add("*.digitalhpe.com", "sha256/UXRFPJGwFvvyJI3vFOMIc19r0JNlNSQydEnYRrZI/W4=")
-                .build();
-        httpClient.certificatePinner(certificatePinner).build();
+        //CertificatePinner certificatePinner = new CertificatePinner.Builder()
+        //        .add("*.digitalhpe.com", "sha256/UXRFPJGwFvvyJI3vFOMIc19r0JNlNSQydEnYRrZI/W4=")
+        //        .build();
+        //httpClient.certificatePinner(certificatePinner).build();
 
         builder = new Retrofit.Builder()
                 .baseUrl(Settings.BASE_URL)
