@@ -1,7 +1,7 @@
 GDG Michigan DevFest 2017
 ================
 
-Projects for my talk Android Authentication in the Web World
+Projects for my talk _Android Authentication in the Web World_
 
 [Additional resources and slides](https://davidtruxall.com/resources-android-authentication/)
 
