@@ -8,10 +8,13 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.gdgdevfest.demo.Settings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gdgdevfest.demo.AuthService;
@@ -48,8 +51,8 @@ public class BaseActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            int serviceResult = intent.getIntExtra("result", -1);
-            if (serviceResult == RESULT_OK) {
+            int serviceResult = intent.getIntExtra("code", -1);
+            if (serviceResult == Settings.AUTH_OK) {
                 mData = intent.getParcelableArrayListExtra("data");
 
                 BindPersonList(context);

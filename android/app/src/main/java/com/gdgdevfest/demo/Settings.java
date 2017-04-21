@@ -14,9 +14,12 @@ public class Settings {
     public static final int OAUTH_REFRESH_TIMEOUT = 600;
     public static final int OAUTH_TOKEN_TIMEOUT = 30;
 
-    public static final String OAUTH_BASE = "https://torch.digitalhpe.com/oauth";
+    public static final String OAUTH_BASE = "https://torch.digitalhpe.com/gdg";
     public static final String OAUTH_LOGIN = OAUTH_BASE + "/oauth/token?grant_type=password&client_id=codemash-client&username=%s&password=%s";
     public static final String OAUTH_REFRESH = OAUTH_BASE + "/oauth/token?client_id=codemash-client&grant_type=refresh_token&refresh_token=%s";
 
     public static final String OAUTH_URL = OAUTH_BASE + REST_URL;
+
+    public static final int AUTH_FAILED = 2;
+    public static final int AUTH_OK = 1;
 }

@@ -14,6 +14,7 @@ import com.gdgdevfest.demo.ntlm.NtlmAuthenticator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -28,7 +29,6 @@ public class AuthService extends IntentService {
 
     public static final String AUTH_RESULT = "AUTH-RESULT";
 
-    private static final int AUTH_FAILED = 2;
     private OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     private Retrofit retrofit;
     private Retrofit.Builder builder;
@@ -103,7 +103,6 @@ public class AuthService extends IntentService {
         builder.client(httpClient.build());
         retrofit = builder.build();
 
-
         service = retrofit.create(NameWebService.class);
         Call<List<Person>> call = service.getBasicNames(7);
 
@@ -148,6 +147,13 @@ public class AuthService extends IntentService {
         executeCall(call, "hmac-data");
     }
 
+    private void getPersonOauth(String userName, String password) {
+
+        long current = TimeUnit.SECONDS.convert(System.nanoTime(), TimeUnit.NANOSECONDS);
+
+
+    }
+
     /*
      * oAuth
      */
@@ -176,7 +182,7 @@ public class AuthService extends IntentService {
         Intent sendBack = new Intent(name);
 
         sendBack.putExtra("call", action);
-        sendBack.putExtra("result", result);
+        sendBack.putExtra("code", result);
         sendBack.putExtra("data", data);
 
         //Keep the intent local to the application
@@ -192,7 +198,7 @@ public class AuthService extends IntentService {
                 if(statusCode == 200) {
                     ArrayList<Person> found = (ArrayList<Person>) response.body();
 
-                    sendResult(found, intentMessage, Activity.RESULT_OK);
+                    sendResult(found, intentMessage, Settings.AUTH_OK);
                 } else {
 
                     String error = null;
@@ -204,7 +210,7 @@ public class AuthService extends IntentService {
 
                     Log.d(this.getClass().getName(), error);
 
-                    sendResult(new ArrayList<Person>(), intentMessage, AUTH_FAILED);
+                    sendResult(new ArrayList<Person>(), intentMessage, Settings.AUTH_FAILED);
                 }
             }
 
@@ -212,17 +218,17 @@ public class AuthService extends IntentService {
             public void onFailure(Call<List<Person>> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("AuthService", "REST Failure", t);
-                sendResult(new ArrayList<Person>(), "hmac-data", AUTH_FAILED);
+                sendResult(new ArrayList<Person>(), "hmac-data", Settings.AUTH_FAILED);
             }
         });
     }
 
-    private void sendResult(ArrayList<Person> data, String action, int result) {
+    private void sendResult(ArrayList<Person> data, String action, int resultCode) {
 
         Intent sendBack = new Intent(AUTH_RESULT);
 
         sendBack.putExtra("call", action);
-        sendBack.putExtra("result", result);
+        sendBack.putExtra("code", resultCode);
         sendBack.putParcelableArrayListExtra("data", data);
 
         //Keep the intent local to the application
